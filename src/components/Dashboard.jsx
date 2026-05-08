@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const [activePage, setActivePage] = useState("Dashboard");
-
-  const location = useLocation();
-  const username = location.state?.username;
+  
   const navigate = useNavigate();
   const navItems = ["Dashboard", "Add Schools", "Search Scoreboard", "Add Users"];
   const url = ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"]

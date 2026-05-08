@@ -8,13 +8,6 @@ const DEFAULT_TEAMS = [
   "Loyal Lions", "Resilient Rhinos", "Fierce Falcons",
 ];
 
-const TEAM_COLORS = [
-  "text-blue-500", "text-blue-500", "text-gray-700",
-  "text-gray-700", "text-gray-700", "text-gray-700",
-  "text-gray-700", "text-gray-700", "text-blue-500",
-  "text-gray-700", "text-gray-700", "text-gray-700",
-];
-
 export default function AddTeamDetails() {
   const [activePage, setActivePage] = useState("Add Schools");
   const [selectedTeams, setSelectedTeams] = useState([

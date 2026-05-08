@@ -54,6 +54,8 @@ export default function ScoreboardMode2() {
   const [program,      setProgram]      = useState("Program Name");
   const [editingHeader,setEditingHeader]= useState(null);
 
+  setCurrentMode(1);
+
   const navItems   = ["Dashboard","Add Schools","Search Scoreboard","Add Users"];
   const [activePage,setActivePage] = useState("Search Scoreboard");
   const url = ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"];
