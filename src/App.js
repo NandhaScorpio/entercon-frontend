@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import AddSchools from "./components/AddSchool"
+import Dashboard from "./components/Dashboard"
+import Login from "./components/Login"
+import AddUsers from "./components/AddUsers"
+import SearchScoreboard from "./components/SearchScoreboard"
+import AddTeamDetails from "./components/AddTeamDetails"
+import ScoreDetails from "./components/ScoreDetails"
+import ScoreboardMode1 from "./components/ScoreboardMode1"
+import ScoreboardMode2 from "./components/ScoreboardMode2"
+import ScoreboardMode3 from "./components/ScoreboardMode3"
+import AddPoints from "./components/AddPoints"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+const App = () => {
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/add-school" element={<AddSchools />} />
+                <Route path="/search-scoreboard" element={<SearchScoreboard />} />
+                <Route path="/add-users" element={<AddUsers />} />
+                <Route path="/add-team-details" element={<AddTeamDetails />} />
+                <Route path="/score-details" element={<ScoreDetails />} />
+                <Route path="/scoreboard-mode1" element={<ScoreboardMode1 />} />
+                <Route path="/scoreboard-mode2" element={<ScoreboardMode2 />} />
+                <Route path="/scoreboard-mode3" element={<ScoreboardMode3 />} />
+                <Route path="/add-points" element={<AddPoints />} />
+            </Routes>
+        </BrowserRouter>
+    )
 }
 
-export default App;
+export default App
