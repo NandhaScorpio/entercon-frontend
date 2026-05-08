@@ -54,6 +54,8 @@ export default function ScoreboardMode3() {
   const navItems = ["Dashboard","Add Schools","Search Scoreboard","Add Users"];
   const url = ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"];  
 
+  setCurrentMode(2)
+
   const startEdit = (teamId, field, val) => {
     setEditingCell(`${teamId}-${field}`);
     setCellValue(val === null ? "" : String(val));
