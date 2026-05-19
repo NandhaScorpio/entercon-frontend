@@ -4,7 +4,6 @@ import Dashboard from "./components/Dashboard"
 import Login from "./components/Login"
 import AddUsers from "./components/AddUsers"
 import SearchScoreboard from "./components/SearchScoreboard"
-import AddTeamDetails from "./components/AddTeamDetails"
 import ScoreDetails from "./components/ScoreDetails"
 import ScoreboardMode1 from "./components/ScoreboardMode1"
 import ScoreboardMode2 from "./components/ScoreboardMode2"
@@ -21,7 +20,6 @@ const App = () => {
                 <Route path="/add-school" element={<AddSchools />} />
                 <Route path="/search-scoreboard" element={<SearchScoreboard />} />
                 <Route path="/add-users" element={<AddUsers />} />
-                <Route path="/add-team-details" element={<AddTeamDetails />} />
                 <Route path="/score-details" element={<ScoreDetails />} />
                 <Route path="/scoreboard-mode1" element={<ScoreboardMode1 />} />
                 <Route path="/scoreboard-mode2" element={<ScoreboardMode2 />} />
