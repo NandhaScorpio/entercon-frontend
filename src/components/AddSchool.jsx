@@ -34,12 +34,16 @@ export default function AddSchools() {
   const users = location.state.users;
   const navItems = ["Dashboard", "Add Schools", "Search Scoreboard", "Add Users"];
   const url = ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"];
-  const [schools, setSchools] = useState(location.state.school);
-  const darkModeStatus = location.state.darkMode;
+  const [schools, setSchools] = useState([]);
+  var darkModeStatus = location.state.darkMode || localStorage.getItem("darkMode");
+  const [entry, setEntry] = useState({})
+
+  console.log(schools)
   
     useEffect(() => {
       setDarkMode(darkModeStatus);
-    }, [darkModeStatus]);
+      setSchools(location.state.school);
+    }, [darkModeStatus, location.state.school]);
   // ─────────────────────────────────
 
   // Dark mode classes
@@ -78,7 +82,9 @@ export default function AddSchools() {
     if (!schoolName || !programName || !dayCount || !participants || !startDate || !endDate) {
       alert("Please fill in all school fields."); return;
     }
-    const entry = { schoolName, programName, numberOfDays: dayCount, participants, startDate, endDate };
+    
+    ;
+    setEntry({...entry, schoolName, programName, numberOfDays: dayCount, participants, startDate, endDate, teamNames: selectedTeams });
     if (editingIndex !== null) {
       console.log(participants)
     } else {
@@ -99,7 +105,7 @@ export default function AddSchools() {
   };
 
   const handleDeleteSchool = (index) => {
-    axios.get(`https://entercon-backend.onrender.com//delete-school?i=${index}`)
+    axios.get(`https://entercon-backend.onrender.com/delete-school?i=${index}`)
       .then((d) => { navigate("/add-school", { state: { username, users, school: d.data, darkMode: darkMode } }); window.location.reload(); })
       .catch((e) => console.log(e));
   };
@@ -132,18 +138,20 @@ export default function AddSchools() {
   const handleFinalSave = () => {
     if (selectedTeams.length === 0) { alert("Please select at least one team."); return; }
     if (editingIndex !== null) {
-      axios.get(`https://entercon-backend.onrender.com/update-school?i=${i}&schoolName=${schoolName}&programName=${programName}&numberOfDays=${dayCount}&participants=${participants}&startDate=${startDate}&endDate=${endDate}&selectedTeams=${selectedTeams}`)
-        .then((d) => { navigate("/add-school", { state: { username: username,users: users, school: d.data } }); window.location.reload(); })
+      localStorage.setItem("darkMode", darkMode);
+      axios.get(`https://entercon-backend.onrender.com/update-school?i=${i}&schoolName=${schoolName}&programName=${programName}&numberOfDays=${dayCount}&participants=${participants}&startDate=${startDate}&endDate=${endDate}&selectedTeams=${selectedTeams}&darkMode=${darkMode}`)
+        .then((d) => { navigate("/add-school", { state: { username: username,users: users, school: d.data, darkMode: darkMode } }); window.location.reload(); })
         .catch((e) => console.log(e));
     }
     else {
-      axios.get(`https://entercon-backend.onrender.com/add-school?schoolName=${schoolName}&programName=${programName}&numberOfDays=${dayCount}&participants=${participants}&startDate=${startDate}&endDate=${endDate}&selectedTeams=${selectedTeams}`)
-        .then((d) => { navigate("/add-school", { state: { username: username,users: users, school: d.data } }); window.location.reload(); })
+      console.log(schoolName, programName, dayCount, participants, startDate, endDate, selectedTeams)
+      localStorage.setItem("darkMode", darkMode);
+      axios.get(`https://entercon-backend.onrender.com/add-school?schoolName=${schoolName}&programName=${programName}&numberOfDays=${dayCount}&participants=${participants}&startDate=${startDate}&endDate=${endDate}&selectedTeams=${selectedTeams}&eventlog=${[]}&darkMode=${darkMode}`)
+        .then((d) => { navigate("/add-school", { state: { username: username,users: users, school: d.data, darkMode: darkMode } }); window.location.reload(); })
         .catch((e) => console.log(e));
       alert(`✅ Saved!\nSchools: ${schools.length}\nTeams: ${selectedTeams.join(", ")}`);
       resetForm();
       setActiveStep(1);
-      window.location.reload();
 
     }
 

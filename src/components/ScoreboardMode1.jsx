@@ -112,6 +112,7 @@ export default function ScoreboardMode1() {
 
   useEffect(() => {
     setDarkMode(darkModeStatus);
+    setCurrentMode(0);
   }, [darkModeStatus]);
 
   const maxScore = Math.max(...TEAMS.map((t) => t.score));

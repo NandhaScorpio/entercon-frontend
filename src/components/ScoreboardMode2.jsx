@@ -67,6 +67,7 @@ export default function ScoreboardMode2() {
   
     useEffect(() => {
       setDarkMode(darkModeStatus);
+      setCurrentMode(1);
     }, [darkModeStatus]);
   // ─────────────────────────────────
 

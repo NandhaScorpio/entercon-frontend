@@ -48,11 +48,11 @@ export default function ScoreboardMode3() {
   const location = useLocation();
   const username = location.state?.username;
   const users    = location.state?.users;
-  const schools  = location.state?.school;
   const darkModeStatus = location.state.darkMode;
   
     useEffect(() => {
       setDarkMode(darkModeStatus);
+      setCurrentMode(2);
     }, [darkModeStatus]);
   // ─────────────────────────────────
 

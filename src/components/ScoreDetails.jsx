@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const TEAMS = ["Resilient Rhinos", "Disciplined Dragons", "Humble Hyenas", "Brave Bisons", "Positive Peacocks", "Loyal Lions"];
-const ACTIVITIES = ["Answering in mic", "Rocket Launch", "Quiz Round", "Debate Round", "Science Demo", "Coding Cup"];
 
 export default function ScoreDetails() {
   const location = useLocation();
@@ -17,10 +16,7 @@ export default function ScoreDetails() {
   const [undoStack, setUndoStack] = useState([]);
   const [currentDay, setCurrentDay] = useState(1);
   const totalDays = 5;
-  const showScoreboard = false;
-  const [currentDate, setCurrentDate] = useState(new Date().toISOString().split("T")[0]);
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [newLog, setNewLog] = useState({ team: "", activity: "", points: "" });
+  const [currentDate, setCurrentDate] = useState();
   const [darkMode, setDarkMode] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -33,14 +29,18 @@ export default function ScoreDetails() {
   const darkModeStatus = location.state.darkMode;
   const [schoolData, setSchoolData] = useState([]);
 
+  console.log(schoolData)
+
   useEffect(() => {
     school.filter((item) => {
       if (item.schoolName === schoolName) {
         setSchoolData(item)
         setLogs([item.eventLog])
+        setCurrentDate(new Date().toISOString().split("T")[0])
       }
+      return item.schoolName === schoolName
     })
-  }, [schoolName])
+  }, [schoolName,school])
 
 
 
@@ -72,15 +72,9 @@ export default function ScoreDetails() {
       : "text-gray-800",
   };
 
-  const inputClass = `border rounded-lg px-3 py-2 text-sm font-mono w-full focus:outline-none focus:ring-2 transition ${dm.input}`;
-  const labelClass = `text-xs font-semibold uppercase tracking-wide mb-1 block ${dm.subtext}`;
-  const [points, setPoints] = useState(0)
-
   // Backend Logic - UNCHANGED
   const handleUndo = (id) => {
-    const log = logs.find((l) => l.id === id);
-    setUndoStack([...undoStack, log]);
-    setLogs(logs.filter((l) => l.id !== id));
+    console.log("Undoing event with ID:", id);
   };
 
   const handleRestore = () => {
@@ -90,16 +84,6 @@ export default function ScoreDetails() {
     setUndoStack(undoStack.slice(0, -1));
   };
 
-  const handleAddLog = () => {
-    if (!newLog.team || !newLog.activity || !newLog.points) { alert("Fill all fields."); return; }
-    const now = new Date();
-    const time = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
-    const entry = { id: Date.now(), time, team: newLog.team, activity: newLog.activity, points: parseInt(newLog.points) };
-    setLogs([...logs, entry]);
-    setNewLog({ team: "", activity: "", points: "" });
-    setShowAddForm(false);
-  };
-
   // Scoreboard: aggregate points per team
   const scoreboard = TEAMS.map((team) => ({
     team,
@@ -107,6 +91,7 @@ export default function ScoreDetails() {
   })).sort((a, b) => b.points - a.points);
 
   const topScore = scoreboard[0]?.points || 0;
+  console.log(topScore);
 
   return (
     <div className={`min-h-screen border-2 border-dashed rounded-xl font-mono transition-colors duration-300 ${dm.page}`}>
@@ -341,7 +326,7 @@ export default function ScoreDetails() {
                             </td>
 
                             <td className="px-5 py-3 text-right">
-                              <button
+                              <button onClick={handleUndo(eLog)}
                                 className={`text-xs font-bold px-4 py-1.5 rounded-lg active:scale-95 transition-all shadow-md hover:shadow-lg ${darkMode
                                     ? "bg-gray-600 hover:bg-gray-500 text-gray-200 shadow-gray-900/30"
                                     : "bg-gray-700 hover:bg-gray-900 text-white shadow-gray-500/25"

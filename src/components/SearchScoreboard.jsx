@@ -15,7 +15,6 @@ export default function SearchScoreboard() {
   const [searched, setSearched] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
   const [editingId, setEditingId] = useState(null);
-  const [editValues, setEditValues] = useState({});
   const [darkMode, setDarkMode] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const date = new Date().toISOString().split("T")[0];
@@ -31,7 +30,8 @@ export default function SearchScoreboard() {
 
   useEffect(() => {
     setDarkMode(darkModeStatus);
-  }, [darkModeStatus]);
+    setEditingId(editingId)
+  }, [darkModeStatus,editingId]);
 
   const MOCK_DATA = school;
   // console.log(MOCK_DATA);
