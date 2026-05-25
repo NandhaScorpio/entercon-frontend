@@ -86,13 +86,6 @@ export default function ScoreDetails() {
     setLogs([...logs, last].sort((a, b) => a.id - b.id));
     setUndoStack(undoStack.slice(0, -1));
   };
-
-  const scoreboard = TEAMS.map((team) => ({
-    team,
-    points: logs
-      .filter((l) => l.team === team)
-      .reduce((sum, l) => sum + l.points, 0),
-  })).sort((a, b) => b.points - a.points);
   // ────────────────────────────────────────
 
   return (

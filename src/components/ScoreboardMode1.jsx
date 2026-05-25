@@ -1,12 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
-const RANK_BADGE = {
-  1: { bg: "bg-yellow-400", text: "text-yellow-900", label: "🥇" },
-  2: { bg: "bg-gray-300",   text: "text-gray-800",   label: "🥈" },
-  3: { bg: "bg-orange-300", text: "text-orange-900", label: "🥉" },
-};
-
 const CARD_THEMES = {
   gold:  { outer: "bg-yellow-400 border-yellow-500", inner: "bg-white", badge: "bg-yellow-300 text-yellow-900" },
   green: { outer: "bg-green-500  border-green-600",  inner: "bg-white", badge: "bg-green-300  text-green-900" },
