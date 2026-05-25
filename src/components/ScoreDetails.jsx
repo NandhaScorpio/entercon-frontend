@@ -1,15 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
-const TEAMS = [
-  "Resilient Rhinos",
-  "Disciplined Dragons",
-  "Humble Hyenas",
-  "Brave Bisons",
-  "Positive Peacocks",
-  "Loyal Lions",
-];
-
 export default function ScoreDetails() {
   const location = useLocation();
   const { schoolName, programName } = location.state || {};
