@@ -10,62 +10,59 @@ const DEFAULT_TEAMS = [
 ];
 
 export default function AddSchools() {
-  const [activePage, setActivePage] = useState("Add Schools");
-  const [schoolName, setSchoolName] = useState("");
-  const [programName, setProgramName] = useState("");
-  const [dayCount, setDayCount] = useState("");
-  const [participants, setParticipants] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [editingIndex, setEditingIndex] = useState(null);
-  const [selectedTeams, setSelectedTeams] = useState([]);
-  const [teams, setTeams] = useState(DEFAULT_TEAMS);
-  const [customTeam, setCustomTeam] = useState("");
+  const [activePage,      setActivePage]      = useState("Add Schools");
+  const [schoolName,      setSchoolName]      = useState("");
+  const [programName,     setProgramName]     = useState("");
+  const [dayCount,        setDayCount]        = useState("");
+  const [participants,    setParticipants]    = useState("");
+  const [startDate,       setStartDate]       = useState("");
+  const [endDate,         setEndDate]         = useState("");
+  const [editingIndex,    setEditingIndex]    = useState(null);
+  const [selectedTeams,   setSelectedTeams]   = useState([]);
+  const [teams,           setTeams]           = useState(DEFAULT_TEAMS);
+  const [customTeam,      setCustomTeam]      = useState("");
   const [showCustomInput, setShowCustomInput] = useState(false);
-  const [activeStep, setActiveStep] = useState(1);
-  const [darkMode, setDarkMode] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [i, setI] = useState(null);
+  const [activeStep,      setActiveStep]      = useState(1);
+  const [darkMode,        setDarkMode]        = useState(false);
+  const [sidebarOpen,     setSidebarOpen]     = useState(false);
+  const [i,               setI]               = useState(null);
 
   // ── Your original backend state ──
   const navigate = useNavigate();
   const location = useLocation();
   const username = location.state.username;
-  const users = location.state.users;
+  const users    = location.state.users;
   const navItems = ["Dashboard", "Add Schools", "Search Scoreboard", "Add Users"];
-  const url = ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"];
+  const url      = ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"];
   const [schools, setSchools] = useState([]);
   var darkModeStatus = location.state.darkMode || localStorage.getItem("darkMode");
-  const [entry, setEntry] = useState({})
+  const [entry, setEntry] = useState({});
 
-  console.log(schools)
-  
-    useEffect(() => {
-      setDarkMode(darkModeStatus);
-      setSchools(location.state.school);
-    }, [darkModeStatus, location.state.school]);
+  useEffect(() => {
+    setDarkMode(darkModeStatus);
+    setSchools(location.state.school);
+  }, [darkModeStatus, location.state.school]);
   // ─────────────────────────────────
 
-  // Dark mode classes
   const dm = {
-    page: darkMode ? "bg-gray-900 border-gray-700" : "bg-white border-gray-300",
-    title: darkMode ? "border-gray-700 text-white" : "border-gray-200 text-gray-900",
-    sidebar: darkMode ? "bg-gray-900 border-gray-700" : "bg-white border-gray-400",
-    main: darkMode ? "bg-gray-800" : "bg-gray-50",
-    card: darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200",
-    text: darkMode ? "text-gray-100" : "text-gray-700",
-    subtext: darkMode ? "text-gray-400" : "text-gray-500",
-    input: darkMode ? "bg-gray-700 border-gray-600 text-gray-100 focus:ring-blue-500 placeholder-gray-400" : "bg-white border-gray-300 text-gray-700 focus:ring-blue-300",
-    thead: darkMode ? "bg-gray-700 text-gray-300" : "bg-gray-50 text-gray-500",
-    trow: darkMode ? "border-gray-700 hover:bg-gray-700" : "border-gray-100 hover:bg-blue-50",
-    tcell: darkMode ? "text-gray-200" : "text-gray-800",
-    tabActive: "bg-blue-500 text-white shadow",
-    tabInactive: darkMode ? "text-gray-400 hover:text-gray-200 hover:bg-gray-700" : "text-gray-500 hover:text-gray-700 hover:bg-gray-100",
-    teamCell: darkMode ? "border-gray-600 hover:bg-gray-700 text-gray-300" : "hover:bg-gray-50 text-gray-700",
+    page:         darkMode ? "bg-gray-900 border-gray-700"       : "bg-white border-gray-300",
+    title:        darkMode ? "border-gray-700 text-white"        : "border-gray-200 text-gray-900",
+    sidebar:      darkMode ? "bg-gray-900 border-gray-700"       : "bg-white border-gray-400",
+    main:         darkMode ? "bg-gray-800"                       : "bg-gray-50",
+    card:         darkMode ? "bg-gray-800 border-gray-700"       : "bg-white border-gray-200",
+    text:         darkMode ? "text-gray-100"                     : "text-gray-700",
+    subtext:      darkMode ? "text-gray-400"                     : "text-gray-500",
+    input:        darkMode ? "bg-gray-700 border-gray-600 text-gray-100 focus:ring-blue-500 placeholder-gray-400" : "bg-white border-gray-300 text-gray-700 focus:ring-blue-300",
+    thead:        darkMode ? "bg-gray-700 text-gray-300"         : "bg-gray-50 text-gray-500",
+    trow:         darkMode ? "border-gray-700 hover:bg-gray-700" : "border-gray-100 hover:bg-blue-50",
+    tcell:        darkMode ? "text-gray-200"                     : "text-gray-800",
+    tabActive:    "bg-blue-500 text-white shadow",
+    tabInactive:  darkMode ? "text-gray-400 hover:text-gray-200 hover:bg-gray-700" : "text-gray-500 hover:text-gray-700 hover:bg-gray-100",
+    teamCell:     darkMode ? "border-gray-600 hover:bg-gray-700 text-gray-300" : "hover:bg-gray-50 text-gray-700",
     teamSelected: darkMode ? "bg-blue-900 text-blue-300 font-bold border-gray-600" : "bg-blue-50 text-blue-600 font-bold",
     selectedCell: darkMode ? "border-gray-600 bg-blue-900 text-blue-300 font-bold" : "border-gray-200 bg-blue-50 text-blue-600 font-bold",
-    emptyCell: darkMode ? "border-gray-600 bg-gray-800" : "border-gray-200 bg-gray-50",
-    customBg: darkMode ? "bg-red-950 border-red-800" : "bg-red-50 border-red-100",
+    emptyCell:    darkMode ? "border-gray-600 bg-gray-800"       : "border-gray-200 bg-gray-50",
+    customBg:     darkMode ? "bg-red-950 border-red-800"         : "bg-red-50 border-red-100",
   };
 
   const inputClass = `border rounded-lg px-3 py-2 text-sm font-mono w-full focus:outline-none focus:ring-2 transition ${dm.input}`;
@@ -82,11 +79,9 @@ export default function AddSchools() {
     if (!schoolName || !programName || !dayCount || !participants || !startDate || !endDate) {
       alert("Please fill in all school fields."); return;
     }
-    
-    ;
-    setEntry({...entry, schoolName, programName, numberOfDays: dayCount, participants, startDate, endDate, teamNames: selectedTeams });
+    setEntry({ ...entry, schoolName, programName, numberOfDays: dayCount, participants, startDate, endDate, teamNames: selectedTeams });
     if (editingIndex !== null) {
-      console.log(participants)
+      //console.log(participants);
     } else {
       // axios.get(`https://entercon-backend.onrender.com/add-school?...`).then(...).catch(...)
     }
@@ -101,15 +96,19 @@ export default function AddSchools() {
     setActiveStep(1);
     setI(index);
     window.scrollTo({ top: 0, behavior: "smooth" });
-    setSelectedTeams(s.teamNames)
+
+    // ── FIX: teamNames is [{name, points}] so extract just the name strings ──
+    const teamNameStrings = (s.teamNames || []).map((t) => t.name);
+    setSelectedTeams(teamNameStrings);
   };
 
   const handleDeleteSchool = (index) => {
     axios.get(`https://entercon-backend.onrender.com/delete-school?i=${index}`)
-      .then((d) => { navigate("/add-school", { state: { username, users, school: d.data, darkMode: darkMode } }); window.location.reload(); })
+      .then((d) => { navigate("/add-school", { state: { username, users, school: d.data, darkMode } }); window.location.reload(); })
       .catch((e) => console.log(e));
   };
 
+  // selectedTeams is plain strings — no change needed
   const toggleTeam = (team) => {
     if (selectedTeams.includes(team)) {
       setSelectedTeams(selectedTeams.filter((t) => t !== team));
@@ -129,32 +128,31 @@ export default function AddSchools() {
 
   const handleRemoveSelected = (team) => setSelectedTeams(selectedTeams.filter((t) => t !== team));
 
+  // teams is plain strings — grid works as before
   const teamGrid = [];
   for (let i = 0; i < teams.length; i += 3) teamGrid.push(teams.slice(i, i + 3));
 
+  // selectedTeams is plain strings — grid works as before
   const selectedGrid = [];
   for (let i = 0; i < selectedTeams.length; i += 3) selectedGrid.push(selectedTeams.slice(i, i + 3));
 
   const handleFinalSave = () => {
     if (selectedTeams.length === 0) { alert("Please select at least one team."); return; }
     if (editingIndex !== null) {
+     
       localStorage.setItem("darkMode", darkMode);
       axios.get(`https://entercon-backend.onrender.com/update-school?i=${i}&schoolName=${schoolName}&programName=${programName}&numberOfDays=${dayCount}&participants=${participants}&startDate=${startDate}&endDate=${endDate}&selectedTeams=${selectedTeams}&darkMode=${darkMode}`)
-        .then((d) => { navigate("/add-school", { state: { username: username,users: users, school: d.data, darkMode: darkMode } }); window.location.reload(); })
+        .then((d) => { navigate("/add-school", { state: { username, users, school: d.data, darkMode } }); window.location.reload(); })
         .catch((e) => console.log(e));
-    }
-    else {
-      console.log(schoolName, programName, dayCount, participants, startDate, endDate, selectedTeams)
+    } else {
       localStorage.setItem("darkMode", darkMode);
       axios.get(`https://entercon-backend.onrender.com/add-school?schoolName=${schoolName}&programName=${programName}&numberOfDays=${dayCount}&participants=${participants}&startDate=${startDate}&endDate=${endDate}&selectedTeams=${selectedTeams}&eventlog=${[]}&darkMode=${darkMode}`)
-        .then((d) => { navigate("/add-school", { state: { username: username,users: users, school: d.data, darkMode: darkMode } }); window.location.reload(); })
+        .then((d) => { navigate("/add-school", { state: { username, users, school: d.data, darkMode } }); window.location.reload(); })
         .catch((e) => console.log(e));
       alert(`✅ Saved!\nSchools: ${schools.length}\nTeams: ${selectedTeams.join(", ")}`);
       resetForm();
       setActiveStep(1);
-
     }
-
   };
   // ────────────────────────────────────────
 
@@ -163,40 +161,33 @@ export default function AddSchools() {
 
       {/* ── Top Bar ── */}
       <div className={`flex items-center justify-between px-4 py-4 border-b ${dm.title}`}>
-
-        {/* Hamburger */}
         <button onClick={() => setSidebarOpen(true)}
           className="md:hidden p-2 rounded-lg text-gray-400 hover:bg-gray-100 transition-colors">
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
-
         <h1 className={`text-base md:text-xl font-bold text-center flex-1 ${dm.title}`}>
           Welcome to Entercon Score Page!
         </h1>
-
-        {/* Dark Mode Toggle */}
         <button onClick={() => setDarkMode(!darkMode)}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all active:scale-95 ${darkMode ? "bg-yellow-400 text-gray-900 hover:bg-yellow-300" : "bg-gray-800 text-white hover:bg-gray-700"
-            }`}>
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all active:scale-95 ${
+            darkMode ? "bg-yellow-400 text-gray-900 hover:bg-yellow-300" : "bg-gray-800 text-white hover:bg-gray-700"
+          }`}>
           {darkMode ? "☀️ Light" : "🌙 Dark"}
         </button>
       </div>
 
       <div className="flex min-h-[calc(100vh-73px)] relative">
 
-        {/* ── Mobile Overlay ── */}
         {sidebarOpen && (
           <div className="fixed inset-0 z-40 bg-black bg-opacity-50 md:hidden"
             onClick={() => setSidebarOpen(false)} />
         )}
 
-        {/* ── Sidebar ── */}
         <div className={`
           fixed md:static z-50 top-0 left-0 h-full
-          w-64 md:w-56 shrink-0
-          flex flex-col gap-6 px-6 py-8
+          w-64 md:w-56 shrink-0 flex flex-col gap-6 px-6 py-8
           border-r transition-transform duration-300
           ${dm.sidebar}
           ${sidebarOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full md:translate-x-0"}
@@ -206,25 +197,19 @@ export default function AddSchools() {
             <button onClick={() => setSidebarOpen(false)}
               className="text-gray-400 hover:text-gray-600 font-bold text-lg">✕</button>
           </div>
-
           {navItems.map((item, index) => (
             <button key={item}
-              onClick={() => {
-                setActivePage(item);
-                setSidebarOpen(false);
-                navigate(url[index], { state: { username, users, school: schools, darkMode } });
-              }}
-              className={`text-left text-sm font-mono transition-all duration-150 hover:text-blue-500 ${activePage === item ? "text-blue-500 font-bold" : dm.text
-                }`}>
+              onClick={() => { setActivePage(item); setSidebarOpen(false); navigate(url[index], { state: { username, users, school: schools, darkMode } }); }}
+              className={`text-left text-sm font-mono transition-all duration-150 hover:text-blue-500 ${
+                activePage === item ? "text-blue-500 font-bold" : dm.text
+              }`}>
               {item}
             </button>
           ))}
         </div>
 
-        {/* ── Main Content ── */}
         <div className={`flex-1 px-4 md:px-10 py-6 md:py-8 flex flex-col gap-5 md:gap-6 ${dm.main}`}>
 
-          {/* Header */}
           <div className="flex items-center justify-between flex-wrap gap-3">
             <div>
               <h2 className={`text-base md:text-lg font-bold ${dm.text}`}>Add Schools & Teams</h2>
@@ -240,31 +225,24 @@ export default function AddSchools() {
             </div>
           </div>
 
-          {/* Step Tabs */}
           <div className={`flex gap-2 border rounded-xl p-1.5 shadow-sm w-fit ${dm.card}`}>
-            {[
-              { step: 1, label: "🏫 School Details" },
-              { step: 2, label: "🏷️ Team Selection" },
-            ].map(({ step, label }) => (
+            {[{ step: 1, label: "🏫 School Details" }, { step: 2, label: "🏷️ Team Selection" }].map(({ step, label }) => (
               <button key={step} onClick={() => setActiveStep(step)}
-                className={`px-4 md:px-5 py-2 text-xs font-bold rounded-lg transition-all ${activeStep === step ? dm.tabActive : dm.tabInactive
-                  }`}>
+                className={`px-4 md:px-5 py-2 text-xs font-bold rounded-lg transition-all ${
+                  activeStep === step ? dm.tabActive : dm.tabInactive
+                }`}>
                 {label}
               </button>
             ))}
           </div>
 
-          {/* ── STEP 1: School Details ── */}
+          {/* ── STEP 1 ── */}
           {activeStep === 1 && (
             <div className="flex flex-col gap-5">
-
-              {/* School Form Card */}
               <div className={`border rounded-xl p-4 md:p-6 shadow-sm ${dm.card}`}>
                 <h3 className={`text-sm font-bold mb-5 pb-3 border-b ${dm.text} ${darkMode ? "border-gray-700" : "border-gray-100"}`}>
                   {editingIndex !== null ? "✏️ Edit School Details" : "🏫 New School Entry"}
                 </h3>
-
-                {/* 1-col on mobile, 2-col on desktop */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
                   <div>
                     <label className={labelClass}>School Name</label>
@@ -297,31 +275,29 @@ export default function AddSchools() {
                       onChange={(e) => setEndDate(e.target.value)} className={inputClass} />
                   </div>
                 </div>
-
                 <div className="flex gap-3 mt-6 justify-end flex-wrap">
                   {editingIndex !== null && (
                     <button onClick={resetForm}
-                      className={`px-5 py-2 text-sm font-bold rounded-lg border active:scale-95 transition-all ${darkMode ? "border-gray-600 text-gray-300 hover:bg-gray-700" : "border-gray-300 text-gray-600 hover:bg-gray-100"
-                        }`}>
+                      className={`px-5 py-2 text-sm font-bold rounded-lg border active:scale-95 transition-all ${
+                        darkMode ? "border-gray-600 text-gray-300 hover:bg-gray-700" : "border-gray-300 text-gray-600 hover:bg-gray-100"
+                      }`}>
                       Cancel
                     </button>
                   )}
                   <button onClick={() => { handleAddSchool(); setActiveStep(2); }}
-                    className={`px-6 py-2 text-sm font-bold rounded-lg text-white active:scale-95 transition-all ${editingIndex !== null ? "bg-green-500 hover:bg-green-600" : "bg-blue-500 hover:bg-blue-600"
-                      }`}>
+                    className={`px-6 py-2 text-sm font-bold rounded-lg text-white active:scale-95 transition-all ${
+                      editingIndex !== null ? "bg-green-500 hover:bg-green-600" : "bg-blue-500 hover:bg-blue-600"
+                    }`}>
                     {editingIndex !== null ? "Save Changes" : "Save & Add Teams →"}
                   </button>
                 </div>
               </div>
 
-              {/* Schools Table */}
               {schools.length > 0 && (
                 <div className={`border rounded-xl overflow-hidden shadow-sm ${dm.card}`}>
                   <div className={`px-5 py-3 border-b ${darkMode ? "border-gray-700" : "border-gray-100"}`}>
                     <h3 className={`text-sm font-bold ${dm.text}`}>Registered Schools</h3>
                   </div>
-
-                  {/* Scrollable table on mobile */}
                   <div className="overflow-x-auto">
                     <table className="w-full text-xs min-w-[560px]">
                       <thead className={`uppercase tracking-wide ${dm.thead}`}>
@@ -366,7 +342,7 @@ export default function AddSchools() {
             </div>
           )}
 
-          {/* ── STEP 2: Team Selection ── */}
+          {/* ── STEP 2 ── */}
           {activeStep === 2 && (
             <div className="flex flex-col gap-5">
 
@@ -380,14 +356,14 @@ export default function AddSchools() {
                   </button>
                 </div>
 
-                {/* Custom Input */}
                 {showCustomInput && (
                   <div className={`flex items-center gap-3 px-5 py-3 border-b flex-wrap ${dm.customBg}`}>
                     <input type="text" placeholder="Enter custom team name..."
                       value={customTeam} onChange={(e) => setCustomTeam(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && handleAddCustomTeam()}
-                      className={`flex-1 border rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-300 min-w-0 ${darkMode ? "bg-gray-700 border-red-700 text-gray-100" : "bg-white border-red-200 text-gray-700"
-                        }`}
+                      className={`flex-1 border rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-300 min-w-0 ${
+                        darkMode ? "bg-gray-700 border-red-700 text-gray-100" : "bg-white border-red-200 text-gray-700"
+                      }`}
                       autoFocus />
                     <button onClick={handleAddCustomTeam}
                       className="bg-red-500 hover:bg-red-600 text-white text-xs font-bold px-4 py-1.5 rounded-lg active:scale-95 transition-all shrink-0">
@@ -400,7 +376,7 @@ export default function AddSchools() {
                   </div>
                 )}
 
-                {/* Team Grid — scrollable on mobile */}
+                {/* Team Grid — teams is plain strings ✓ */}
                 <div className="p-3 md:p-4 overflow-x-auto">
                   <table className="w-full border rounded-lg overflow-hidden text-xs md:text-sm min-w-[320px]"
                     style={{ borderColor: darkMode ? "#374151" : "#e5e7eb" }}>
@@ -408,12 +384,14 @@ export default function AddSchools() {
                       {teamGrid.map((row, ri) => (
                         <tr key={ri} className={`border-t first:border-0 ${darkMode ? "border-gray-700" : "border-gray-100"}`}>
                           {row.map((team, ci) => {
-                            const idx = ri * 3 + ci;
+                            const idx        = ri * 3 + ci;
+                            // team is a plain string ✓
                             const isSelected = selectedTeams.includes(team);
                             return (
                               <td key={ci} onClick={() => toggleTeam(team)}
-                                className={`border px-3 md:px-4 py-2.5 md:py-3 text-center cursor-pointer transition-all duration-150 select-none ${isSelected ? dm.teamSelected : dm.teamCell
-                                  } ${darkMode ? "border-gray-600" : "border-gray-200"}`}>
+                                className={`border px-3 md:px-4 py-2.5 md:py-3 text-center cursor-pointer transition-all duration-150 select-none ${
+                                  isSelected ? dm.teamSelected : dm.teamCell
+                                } ${darkMode ? "border-gray-600" : "border-gray-200"}`}>
                                 <span className={`text-xs mr-1 ${dm.subtext}`}>{idx + 1}.</span>
                                 {team}
                                 {isSelected && <span className="ml-1 text-blue-400 text-xs">✓</span>}
@@ -432,7 +410,7 @@ export default function AddSchools() {
                 </div>
               </div>
 
-              {/* Added Teams Card */}
+              {/* Added Teams Card — selectedTeams is plain strings ✓ */}
               <div className={`border rounded-xl shadow-sm overflow-hidden ${dm.card}`}>
                 <div className={`flex items-center justify-between px-5 py-3 border-b ${darkMode ? "border-gray-700" : "border-gray-100"}`}>
                   <h3 className={`text-sm font-bold ${dm.text}`}>
@@ -462,6 +440,7 @@ export default function AddSchools() {
                           <tr key={ri} className={`border-t first:border-0 ${darkMode ? "border-gray-700" : "border-gray-100"}`}>
                             {row.map((team, ci) => {
                               const idx = ri * 3 + ci;
+                              // team is a plain string ✓ — no .name needed
                               return (
                                 <td key={ci}
                                   className={`border px-3 md:px-4 py-2.5 md:py-3 text-center ${dm.selectedCell}`}>
@@ -484,17 +463,18 @@ export default function AddSchools() {
                 )}
               </div>
 
-              {/* Navigation Buttons */}
               <div className="flex justify-between flex-wrap gap-3">
                 <button onClick={() => setActiveStep(1)}
-                  className={`px-5 py-2 text-sm font-bold rounded-lg border active:scale-95 transition-all ${darkMode ? "border-gray-600 text-gray-300 hover:bg-gray-700" : "border-gray-300 text-gray-600 hover:bg-gray-100"
-                    }`}>
+                  className={`px-5 py-2 text-sm font-bold rounded-lg border active:scale-95 transition-all ${
+                    darkMode ? "border-gray-600 text-gray-300 hover:bg-gray-700" : "border-gray-300 text-gray-600 hover:bg-gray-100"
+                  }`}>
                   ← Back to School Details
                 </button>
                 <div className="flex gap-3 flex-wrap">
                   <button onClick={() => setSelectedTeams([])}
-                    className={`px-5 py-2 text-sm font-bold rounded-lg border active:scale-95 transition-all ${darkMode ? "border-gray-600 text-gray-300 hover:bg-gray-700" : "border-gray-300 text-gray-600 hover:bg-gray-100"
-                      }`}>
+                    className={`px-5 py-2 text-sm font-bold rounded-lg border active:scale-95 transition-all ${
+                      darkMode ? "border-gray-600 text-gray-300 hover:bg-gray-700" : "border-gray-300 text-gray-600 hover:bg-gray-100"
+                    }`}>
                     Reset Teams
                   </button>
                   <button onClick={handleFinalSave}
@@ -510,4 +490,4 @@ export default function AddSchools() {
       </div>
     </div>
   );
-}
+} 

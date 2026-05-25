@@ -68,7 +68,7 @@ export default function SearchScoreboard() {
   const handleSearch = () => {
     const filtered = MOCK_DATA.filter((d) => {
       const schoolMatch = schoolInput.trim() === "" || d.schoolName.toLowerCase().includes(schoolInput.toLowerCase());
-      const programMatch = programInput.trim() === "" || d.program.toLowerCase().includes(programInput.toLowerCase());
+      const programMatch = programInput.trim() === "" || d.programName.toLowerCase().includes(programInput.toLowerCase());
       return schoolMatch && programMatch;
     });
     setResults(filtered);
@@ -76,6 +76,7 @@ export default function SearchScoreboard() {
     setSelectedRow(null);
     setEditingId(null);
   };
+
 
   return (
     <div className={`min-h-screen border-2 border-dashed rounded-xl font-mono transition-colors duration-300 ${dm.page}`}>
