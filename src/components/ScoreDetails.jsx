@@ -93,8 +93,6 @@ export default function ScoreDetails() {
       .filter((l) => l.team === team)
       .reduce((sum, l) => sum + l.points, 0),
   })).sort((a, b) => b.points - a.points);
-
-  const topScore = scoreboard[0]?.points || 0;
   // ────────────────────────────────────────
 
   return (

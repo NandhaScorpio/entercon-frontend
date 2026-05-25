@@ -32,7 +32,6 @@ function TeamCard({
   username, users, school, schoolName, programName, index,
 }) {
   const theme    = CARD_THEMES[index % 2 === 0 ? "gold" : "green"];
-  const rankMeta = RANK_BADGE[team.rank];
   const pct      = maxScore > 0 ? Math.round((team.score / maxScore) * 100) : 0;
 
   return (
@@ -101,12 +100,6 @@ export default function ScoreboardMode1() {
   const darkModeStatus = location.state.darkMode;
   const schoolName     = location.state.schoolName;
   const programName    = location.state.programName;
-
-  const scl = schools.filter((s) => {
-    if (s.name === schoolName && s.program === programName) {
-      return s;
-    }
-  });
 
   useEffect(() => {
   setDarkMode(darkModeStatus);
