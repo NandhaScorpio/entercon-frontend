@@ -9,12 +9,14 @@ export default function ScoreDetails() {
   const [logs,              setLogs]              = useState([]);
   const [undoStack,         setUndoStack]         = useState([]);
   const [currentDay,        setCurrentDay]        = useState(1);
-  const totalDays = 5;
+  
   const [currentDate,       setCurrentDate]       = useState();
   const [darkMode,          setDarkMode]          = useState(false);
   const [sidebarOpen,       setSidebarOpen]       = useState(false);
   const [participantsCount, setParticipantsCount] = useState();
   const [schoolData,        setSchoolData]        = useState([]);
+
+  const totalDays = schoolData.numberOfDays;
 
   // ── Your original backend state ──
   const navItems = ["Dashboard", "Add Schools", "Search Scoreboard", "Add Users"];

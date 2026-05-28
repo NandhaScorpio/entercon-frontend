@@ -270,7 +270,7 @@ export default function ScoreboardMode1() {
                 </div>
                 <button
                   onClick={() => navigate("/scoreboard-mode2", {
-                    state: { username, users, school: schools, schoolName, programName, darkMode },
+                    state: { username, users, school: schools, schoolName, programName, darkMode: darkModeStatus },
                   })}
                   className="bg-blue-500 hover:bg-blue-600 active:scale-95 text-white text-xs font-bold px-3 py-2 rounded-lg transition-all whitespace-nowrap">
                   {MODES[currentMode]} ↺
