@@ -81,6 +81,8 @@ export default function AddPoints() {
       (item, ind) =>
         item.schoolName === schoolName && item.programName === programName,
     );
+    setTEAMS(matchingSchool.map((s) => s.teamName));
+    console.log(TEAMS);
   }, [darkModeStatus, programName, schoolName, school]);
   // ─────────────────────────────────
 
