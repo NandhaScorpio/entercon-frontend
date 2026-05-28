@@ -83,7 +83,7 @@ export default function AddPoints() {
     );
     setTEAMS(matchingSchool.map((s) => s.teamName));
     console.log(TEAMS);
-  }, [darkModeStatus, programName, schoolName, school]);
+  }, [darkModeStatus, programName, schoolName, school, TEAMS]);
   // ─────────────────────────────────
 
   // Dark mode classes
