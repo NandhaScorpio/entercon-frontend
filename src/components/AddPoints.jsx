@@ -52,7 +52,6 @@ export default function AddPoints() {
   const [darkMode, setDarkMode] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("form"); // mobile tab: "form" | "totals"
-  const [i, setI] = useState();
   const [TEAMS, setTEAMS] = useState([]);
 
   // ── Your original backend state ──
@@ -82,14 +81,7 @@ export default function AddPoints() {
       (item, ind) =>
         item.schoolName === schoolName && item.programName === programName,
     );
-
-    var teams = []
-
-    matchingSchool.teamNames.map((team) => {
-      teams.push(team.name);
-    });
-    setTEAMS(teams);
-  }, [darkModeStatus, programName, schoolName, school, TEAMS]);
+  }, [darkModeStatus, programName, schoolName, school]);
   // ─────────────────────────────────
 
   // Dark mode classes
