@@ -43,7 +43,6 @@ export default function AddPoints() {
   const [points, setPoints] = useState("");
   const [currentDay, setCurrentDay] = useState(0);
   const [presets, setPresets] = useState(INITIAL_PRESETS);
-  const [log, setLog] = useState([]);
   const [showEditPresets, setShowEditPresets] = useState(false);
   const [editPreset, setEditPreset] = useState(null);
   const [newPreset, setNewPreset] = useState({ label: "", points: "" });
@@ -64,9 +63,9 @@ export default function AddPoints() {
   const users = locationState.users || [];
   const schoolName = locationState.schoolName || "";
   const programName = locationState.programName || "";
-  const school = useMemo(() => {
-    return locationState?.school;
-  }, [locationState?.school]);
+  var school = useMemo(() => {
+    return locationState.school;
+  }, [locationState.school]);
   const navItems = [
     "Dashboard",
     "Add Schools",
@@ -74,9 +73,10 @@ export default function AddPoints() {
     "Add Users",
   ];
   const url = ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"];
-  const darkModeStatus = locationState.darkMode;
+  const darkModeStatus =
+    locationState.darkMode || window.localStorage.getItem("darkMode");
 
-  console.log(currentDay);
+  console.log(school);
 
   console.log(
     new Date().toLocaleTimeString("en-US", {
@@ -175,12 +175,25 @@ export default function AddPoints() {
     });
 
     console.log(dayIndex, teamName, event, eventPoints, time);
-
+    window.localStorage.setItem("darkMode", darkMode);
     axios
       .get(
-        `http://localhost:5000/add-points?dayIndex=${dayIndex}&teamName=${teamName}&event=${event}&points=${eventPoints}&time=${time}&schoolIndex=${schoolIndex}`,
+        `https://entercon-backend.onrender.com/add-points?dayIndex=${dayIndex}&teamName=${teamName}&event=${event}&points=${eventPoints}&time=${time}&schoolIndex=${schoolIndex}`,
       )
-      .then((res) => console.log(res.data))
+      .then((res) => {
+        navigate("/add-points", {
+          state: {
+            username: username,
+            users: users,
+            school: res.data,
+            darkMode: darkMode,
+            schoolName: schoolName,
+            programName: programName,
+          },
+        });
+        school = res.data;
+        window.location.reload();
+      })
       .catch((e) => console.log(e));
 
     setActivity("");
