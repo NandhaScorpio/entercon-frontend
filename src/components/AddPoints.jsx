@@ -38,7 +38,7 @@ const INITIAL_PRESETS = [
 
 export default function AddPoints() {
   const [activePage, setActivePage] = useState("Search Scoreboard");
-  const [selectedTeam, setSelectedTeam] = useState("Compassionate Cobras");
+  const [selectedTeam, setSelectedTeam] = useState();
   const [activity, setActivity] = useState("");
   const [points, setPoints] = useState("");
   const [currentDay, setCurrentDay] = useState(0);
