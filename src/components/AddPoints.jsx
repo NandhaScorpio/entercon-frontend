@@ -452,6 +452,7 @@ export default function AddPoints() {
                     onChange={(e) => setSelectedTeam(e.target.value)}
                     className={`border rounded-lg px-3 py-2 text-sm font-bold font-mono w-full focus:outline-none focus:ring-2 focus:ring-green-300 transition ${dm.select}`}
                   >
+                    <option key="Select">Select</option>
                     {TEAMS.map((t) => (
                       <option key={t}>{t}</option>
                     ))}
