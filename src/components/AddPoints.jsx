@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMemo } from "react";
+import axios from "axios";
 
 const INITIAL_PRESETS = [
   {
@@ -35,8 +36,6 @@ const INITIAL_PRESETS = [
   },
 ];
 
-const DAYS = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5"];
-
 export default function AddPoints() {
   const [activePage, setActivePage] = useState("Search Scoreboard");
   const [selectedTeam, setSelectedTeam] = useState("Compassionate Cobras");
@@ -53,6 +52,9 @@ export default function AddPoints() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("form"); // mobile tab: "form" | "totals"
   const [TEAMS, setTEAMS] = useState([]);
+  const [eventLog, setEventLog] = useState([]);
+  const [schoolIndex, setSchoolIndex] = useState();
+  const [DAYS, setDAYS] = useState([]);
 
   // ── Your original backend state ──
   const navigate = useNavigate();
@@ -63,8 +65,8 @@ export default function AddPoints() {
   const schoolName = locationState.schoolName || "";
   const programName = locationState.programName || "";
   const school = useMemo(() => {
-  return locationState?.school;
-}, [locationState?.school]);
+    return locationState?.school;
+  }, [locationState?.school]);
   const navItems = [
     "Dashboard",
     "Add Schools",
@@ -72,7 +74,16 @@ export default function AddPoints() {
     "Add Users",
   ];
   const url = ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"];
-  const darkModeStatus = locationState.darkMode || window.getItem("darkMode");
+  const darkModeStatus = locationState.darkMode;
+
+  console.log(currentDay);
+
+  console.log(
+    new Date().toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    }),
+  );
 
   useEffect(() => {
     setDarkMode(darkModeStatus);
@@ -81,9 +92,24 @@ export default function AddPoints() {
       (item, ind) =>
         item.schoolName === schoolName && item.programName === programName,
     );
-    setTEAMS(matchingSchool.map((s) => s.teamName));
-    console.log(TEAMS);
-  }, [darkModeStatus, programName, schoolName, school, TEAMS]);
+
+    var days = [];
+
+    for (var i = 1; i <= matchingSchool.numberOfDays; i++) {
+      days.push("Day " + i);
+    }
+
+    setDAYS(days);
+
+    setSchoolIndex(
+      school.findIndex(
+        (item) =>
+          item.schoolName === schoolName && item.programName === programName,
+      ),
+    );
+    setEventLog(matchingSchool.eventLog);
+    setTEAMS(matchingSchool.teamNames.map((s) => s.name));
+  }, [darkModeStatus, programName, schoolName, school]);
   // ─────────────────────────────────
 
   // Dark mode classes
@@ -129,35 +155,47 @@ export default function AddPoints() {
     setTimeout(() => setFlash(null), 1800);
   };
 
-  const handleAdd = (pts = null, label = null) => {
-    const finalPoints = pts ?? parseInt(points);
-    const finalActivity = label ?? activity;
+  const handleAdd = () => {
+    const finalPoints = parseInt(points);
+    const finalActivity = activity;
+
     if (!finalActivity || isNaN(finalPoints)) {
       alert("Fill activity and points.");
       return;
     }
-    const entry = {
-      id: Date.now(),
-      team: selectedTeam,
-      activity: finalActivity,
-      points: finalPoints,
-      day: DAYS[currentDay],
-      time: new Date().toLocaleTimeString("en-US", {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      }),
-    };
-    setLog((prev) => [entry, ...prev]);
+
+    const dayIndex = currentDay;
+    const teamName = selectedTeam;
+    const event = finalActivity;
+    const eventPoints = finalPoints;
+
+    const time = new Date().toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    console.log(dayIndex, teamName, event, eventPoints, time);
+
+    axios
+      .get(
+        `http://localhost:5000/add-points?dayIndex=${dayIndex}&teamName=${teamName}&event=${event}&points=${eventPoints}&time=${time}&schoolIndex=${schoolIndex}`,
+      )
+      .then((res) => console.log(res.data))
+      .catch((e) => console.log(e));
+
     setActivity("");
     setPoints("");
+
     showFlash(
       `+${finalPoints} pts added to ${selectedTeam}`,
       finalPoints >= 0 ? "bg-green-500" : "bg-red-500",
     );
   };
 
-  const handlePresetClick = (preset) => handleAdd(preset.points, preset.label);
+  const handlePresetClick = (preset) => {
+    setActivity(preset.label);
+    setPoints(preset.points);
+  };
 
   const handleSavePreset = () => {
     const pts = parseInt(newPreset.points);
@@ -188,9 +226,26 @@ export default function AddPoints() {
     setEditPreset(null);
   };
 
-  const teamTotal = (team) =>
-    log.filter((l) => l.team === team).reduce((s, l) => s + l.points, 0);
-  // ────────────────────────────────────────
+  // Current selected day logs only
+  // Current day's logs only
+  const currentDayLogs = eventLog[currentDay] || [];
+
+  // Cumulative score till selected day
+  const teamTotal = (team) => {
+    let total = 0;
+
+    for (let i = 0; i <= currentDay; i++) {
+      const dayLogs = eventLog[i] || [];
+
+      total += dayLogs
+        .filter((log) => log.team === team)
+        .reduce((sum, log) => sum + log.points, 0);
+    }
+
+    return total;
+  };
+
+  // Cumulative totals till current da
 
   return (
     <div
@@ -313,7 +368,7 @@ export default function AddPoints() {
             </div>
             <div className="flex items-center gap-2 flex-wrap">
               <span className="bg-pink-100 text-pink-600 text-xs font-bold px-3 py-1 rounded-full">
-                {log.length} Events Logged
+                {currentDayLogs.length} Events Logged
               </span>
               <div
                 className={`flex items-center gap-1 border rounded-lg px-3 py-1.5 ${dm.dayBtn}`}
@@ -459,19 +514,25 @@ export default function AddPoints() {
                 {/* Action Buttons */}
                 <div className="flex gap-2 flex-wrap">
                   <button
-                    onClick={() => handleAdd()}
+                    onClick={handleAdd}
                     className="bg-orange-400 hover:bg-orange-500 active:scale-95 text-white text-sm font-bold px-5 py-2 rounded-lg transition-all"
                   >
                     Add
                   </button>
                   <button
-                    onClick={() => handleAdd(5, activity || "+5 Quick")}
+                    onClick={() => {
+                      setActivity(activity || "+5 Quick");
+                      setPoints(5);
+                    }}
                     className="bg-green-500 hover:bg-green-600 active:scale-95 text-white text-sm font-bold px-4 py-2 rounded-lg transition-all"
                   >
                     +5 Quick
                   </button>
                   <button
-                    onClick={() => handleAdd(-5, activity || "-5 Penalty")}
+                    onClick={() => {
+                      setActivity(activity || "-5 Penalty");
+                      setPoints(-5);
+                    }}
                     className="bg-red-500 hover:bg-red-600 active:scale-95 text-white text-sm font-bold px-4 py-2 rounded-lg transition-all"
                   >
                     -5 Penalty
@@ -683,16 +744,8 @@ export default function AddPoints() {
                   <h3 className={`text-sm font-bold ${dm.text}`}>
                     📋 Recent Log
                   </h3>
-                  {log.length > 0 && (
-                    <button
-                      onClick={() => setLog([])}
-                      className="text-xs text-red-400 hover:text-red-500 font-bold transition-colors"
-                    >
-                      Clear All
-                    </button>
-                  )}
                 </div>
-                {log.length === 0 ? (
+                {currentDayLogs.length === 0 ? (
                   <div
                     className={`px-4 py-8 text-center text-xs ${dm.subtext}`}
                   >
@@ -701,9 +754,9 @@ export default function AddPoints() {
                   </div>
                 ) : (
                   <div className="max-h-64 overflow-y-auto">
-                    {log.map((entry) => (
+                    {currentDayLogs.map((entry, index) => (
                       <div
-                        key={entry.id}
+                        key={index}
                         className={`flex items-center justify-between px-4 py-2.5 border-b transition-colors ${dm.logRow}`}
                       >
                         <div className="flex flex-col min-w-0">
@@ -713,7 +766,7 @@ export default function AddPoints() {
                             {entry.team}
                           </span>
                           <span className={`text-xs truncate ${dm.subtext}`}>
-                            {entry.activity} · {entry.day} · {entry.time}
+                            {entry.events} · {DAYS[currentDay]} · {entry.time}
                           </span>
                         </div>
                         <span
