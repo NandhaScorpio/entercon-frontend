@@ -26,7 +26,7 @@ export default function ScoreboardMode2() {
   const username = location.state?.username;
   const users = location.state?.users;
   const schools = location.state?.school;
-  const darkModeStatus = location.state?.darkMode || window.getItem("darkMode");
+  const darkModeStatus = location.state?.darkMode || window.localStorage.getItem("darkMode") === "true";
   const schoolName = location.state?.schoolName;
   const programName = location.state?.programName;
 

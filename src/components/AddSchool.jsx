@@ -35,7 +35,7 @@ export default function AddSchools() {
   const navItems = ["Dashboard", "Add Schools", "Search Scoreboard", "Add Users"];
   const url      = ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"];
   const [schools, setSchools] = useState([]);
-  var darkModeStatus = location.state.darkMode || localStorage.getItem("darkMode");
+  var darkModeStatus = location.state.darkMode || localStorage.getItem("darkMode") === "true";
   const [entry, setEntry] = useState({});
 
   useEffect(() => {

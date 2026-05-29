@@ -74,16 +74,8 @@ export default function AddPoints() {
   ];
   const url = ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"];
   const darkModeStatus =
-    locationState.darkMode || window.localStorage.getItem("darkMode");
+    locationState.darkMode;
 
-  console.log(school);
-
-  console.log(
-    new Date().toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-    }),
-  );
 
   useEffect(() => {
     setDarkMode(darkModeStatus);
@@ -174,7 +166,6 @@ export default function AddPoints() {
       minute: "2-digit",
     });
 
-    console.log(dayIndex, teamName, event, eventPoints, time);
     window.localStorage.setItem("darkMode", darkMode);
     axios
       .get(
@@ -192,7 +183,6 @@ export default function AddPoints() {
           },
         });
         school = res.data;
-        window.location.reload();
       })
       .catch((e) => console.log(e));
 
