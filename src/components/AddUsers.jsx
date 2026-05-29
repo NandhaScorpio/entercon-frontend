@@ -72,9 +72,9 @@ export default function AddUsers() {
             : "text-gray-800",
     };
 
-    const inputClass = `border rounded-lg px-3 py-2 text-sm font-mono w-full focus:outline-none focus:ring-2 transition ${dm.input}`;
+    const inputClass = `border rounded-lg px-3 py-2 sm:py-2.5 text-xs sm:text-sm font-mono w-full focus:outline-none focus:ring-2 transition ${dm.input}`;
 
-    const labelClass = `text-xs font-semibold uppercase tracking-wide mb-1 block ${dm.subtext}`;
+    const labelClass = `text-xs font-semibold uppercase tracking-wide mb-1 sm:mb-2 block ${dm.subtext}`;
 
     // ── Backend Logic Untouched ──
 
@@ -177,7 +177,7 @@ export default function AddUsers() {
 
             {/* ── Top Bar ── */}
 
-            <div className={`flex items-center justify-between px-4 py-4 border-b ${dm.title}`}>
+            <div className={`flex items-center justify-between px-3 sm:px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b ${dm.title}`}>
 
                 {/* Hamburger */}
 
@@ -200,7 +200,7 @@ export default function AddUsers() {
                     </svg>
                 </button>
 
-                <h1 className={`text-base md:text-xl font-bold text-center flex-1 ${dm.text}`}>
+                <h1 className={`text-sm sm:text-sm sm:text-base md:text-lg font-bold text-center flex-1 ${dm.text}`}>
                     Welcome to Entercon Score Page!
                 </h1>
 
@@ -235,7 +235,7 @@ export default function AddUsers() {
                 <div className={`
                     fixed md:static z-50 top-0 left-0 h-full
                     w-64 md:w-56 shrink-0
-                    flex flex-col gap-6 px-6 py-8
+                    flex flex-col gap-3 sm:gap-4 md:gap-2 sm:gap-3 md:gap-4 lg:gap-5 lg:gap-6 px-6 py-8
                     border-r transition-transform duration-300
                     ${dm.sidebar}
                     ${sidebarOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full md:translate-x-0"}
@@ -281,14 +281,14 @@ export default function AddUsers() {
 
                 {/* ── Main Content ── */}
 
-                <div className={`flex-1 px-4 md:px-10 py-6 md:py-8 flex flex-col gap-5 md:gap-6 ${dm.main}`}>
+                <div className={`flex-1 px-3 sm:px-6 md:px-10 py-4 sm:py-6 md:py-8 flex flex-col gap-4 sm:gap-2 sm:gap-3 md:gap-4 lg:gap-5 md:gap-3 sm:gap-4 md:gap-2 sm:gap-3 md:gap-4 lg:gap-5 lg:gap-6 ${dm.main}`}>
 
                     {/* Header */}
 
                     <div className="flex items-center justify-between flex-wrap gap-3">
 
                         <div>
-                            <h2 className={`text-base md:text-lg font-bold ${dm.text}`}>
+                            <h2 className={`text-sm sm:text-base md:text-lg font-bold ${dm.text}`}>
                                 Add Users
                             </h2>
 
@@ -341,13 +341,13 @@ export default function AddUsers() {
 
                     {/* Add User Form */}
 
-                    <div className={`border rounded-xl p-4 md:p-6 shadow-sm ${dm.card}`}>
+                    <div className={`border rounded-xl p-3 sm:p-4 md:p-5 md:p-6 shadow-sm ${dm.card}`}>
 
-                        <h3 className={`text-sm font-bold mb-5 pb-3 border-b ${dm.text} ${darkMode ? "border-gray-700" : "border-gray-100"}`}>
+                        <h3 className={`text-sm sm:text-base font-bold mb-4 sm:mb-5 pb-2 sm:pb-3 border-b ${dm.text} ${darkMode ? "border-gray-700" : "border-gray-100"}`}>
                             👤 New User Entry
                         </h3>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 md:gap-2 sm:gap-3 md:gap-4 lg:gap-5">
 
                             {/* Username */}
 
@@ -380,12 +380,12 @@ export default function AddUsers() {
                                         onChange={(e) =>
                                             setForm({ ...form, password: e.target.value })
                                         }
-                                        className={inputClass + " pr-12"}
+                                        className={inputClass + " pr-11 sm:pr-12"}
                                     />
 
                                     <button
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className={`absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold transition-colors ${dm.subtext}`}
+                                        className={`absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 text-xs font-bold transition-colors px-2 py-1 rounded ${dm.subtext}`}
                                     >
                                         {showPassword ? "Hide" : "Show"}
                                     </button>
@@ -421,7 +421,7 @@ export default function AddUsers() {
 
                         {/* Buttons */}
 
-                        <div className="flex gap-3 mt-5 justify-end flex-wrap">
+                        <div className="flex gap-2 sm:gap-3 mt-4 sm:mt-5 justify-end flex-wrap sm:flex-nowrap">
 
                             <button
                                 onClick={() =>
@@ -431,7 +431,7 @@ export default function AddUsers() {
                                         category: ""
                                     })
                                 }
-                                className={`px-5 py-2 text-sm font-bold rounded-lg border active:scale-95 transition-all ${
+                                className={`px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-bold rounded-lg border active:scale-95 transition-all ${
                                     darkMode
                                         ? "border-gray-600 text-gray-300 hover:bg-gray-700"
                                         : "border-gray-300 text-gray-600 hover:bg-gray-100"
@@ -445,14 +445,14 @@ export default function AddUsers() {
                                     setShowEditPanel(true);
                                     setEditingId(null);
                                 }}
-                                className="px-5 py-2 text-sm font-bold rounded-lg text-white bg-green-500 hover:bg-green-600 active:scale-95 transition-all"
+                                className="px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-bold rounded-lg text-white bg-green-500 hover:bg-green-600 active:scale-95 transition-all"
                             >
                                 Edit Users
                             </button>
 
                             <button
                                 onClick={handleAdd}
-                                className="px-6 py-2 text-sm font-bold rounded-lg text-white bg-blue-500 hover:bg-blue-600 active:scale-95 transition-all"
+                                className="px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-bold rounded-lg text-white bg-blue-500 hover:bg-blue-600 active:scale-95 transition-all"
                             >
                                 Add User
                             </button>
@@ -467,7 +467,7 @@ export default function AddUsers() {
 
                         <div className={`border rounded-xl shadow-sm overflow-hidden ${dm.card}`}>
 
-                            <div className={`flex items-center justify-between px-4 md:px-6 py-3 border-b flex-wrap gap-2 ${
+                            <div className={`flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 border-b flex-wrap gap-2 ${
                                 darkMode ? "border-gray-700" : "border-gray-100"
                             }`}>
 

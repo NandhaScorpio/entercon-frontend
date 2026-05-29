@@ -49,13 +49,12 @@ export default function AddPoints() {
   const [flash, setFlash] = useState(null);
   const [darkMode, setDarkMode] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("form"); // mobile tab: "form" | "totals"
+  const [activeTab, setActiveTab] = useState("form");
   const [TEAMS, setTEAMS] = useState([]);
   const [eventLog, setEventLog] = useState([]);
   const [schoolIndex, setSchoolIndex] = useState();
   const [DAYS, setDAYS] = useState([]);
 
-  // ── Your original backend state ──
   const navigate = useNavigate();
   const location = useLocation();
   const locationState = location.state || {};
@@ -73,9 +72,7 @@ export default function AddPoints() {
     "Add Users",
   ];
   const url = ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"];
-  const darkModeStatus =
-    locationState.darkMode;
-
+  const darkModeStatus = locationState.darkMode;
 
   useEffect(() => {
     setDarkMode(darkModeStatus);
@@ -102,9 +99,7 @@ export default function AddPoints() {
     setEventLog(matchingSchool.eventLog);
     setTEAMS(matchingSchool.teamNames.map((s) => s.name));
   }, [darkModeStatus, programName, schoolName, school]);
-  // ─────────────────────────────────
 
-  // Dark mode classes
   const dm = {
     page: darkMode ? "bg-gray-900 border-gray-700" : "bg-white border-gray-300",
     title: darkMode
@@ -139,9 +134,8 @@ export default function AddPoints() {
       : "bg-green-50 border-green-300",
   };
 
-  const inputClass = `border rounded-lg px-3 py-1.5 text-sm font-mono focus:outline-none focus:ring-2 transition w-full ${dm.input}`;
+  const inputClass = `border rounded-lg px-3 py-1.5 sm:py-2 text-xs sm:text-sm font-mono focus:outline-none focus:ring-2 transition w-full ${dm.input}`;
 
-  // ── Your original handlers (untouched) ──
   const showFlash = (msg, color) => {
     setFlash({ msg, color });
     setTimeout(() => setFlash(null), 1800);
@@ -229,11 +223,8 @@ export default function AddPoints() {
     setEditPreset(null);
   };
 
-  // Current selected day logs only
-  // Current day's logs only
   const currentDayLogs = eventLog[currentDay] || [];
 
-  // Cumulative score till selected day
   const teamTotal = (team) => {
     let total = 0;
 
@@ -248,20 +239,17 @@ export default function AddPoints() {
     return total;
   };
 
-  // Cumulative totals till current da
-
   return (
     <div
       className={`min-h-screen border-2 border-dashed rounded-xl font-mono transition-colors duration-300 ${dm.page}`}
     >
-      {/* ── Top Bar ── */}
+      {/* Top Bar */}
       <div
-        className={`flex items-center justify-between px-4 py-4 border-b ${dm.title}`}
+        className={`flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b gap-2 ${dm.title}`}
       >
-        {/* Hamburger */}
         <button
           onClick={() => setSidebarOpen(true)}
-          className="md:hidden p-2 rounded-lg text-gray-400 hover:bg-gray-100 transition-colors"
+          className="md:hidden p-2 rounded-lg text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors touch-highlight"
         >
           <svg
             className="w-5 h-5"
@@ -279,26 +267,25 @@ export default function AddPoints() {
         </button>
 
         <h1
-          className={`text-base md:text-xl font-bold text-center flex-1 ${dm.title}`}
+          className={`text-sm sm:text-base md:text-xl font-bold text-center flex-1 min-w-0 ${dm.title}`}
         >
           Welcome to Entercon Score Page!
         </h1>
 
-        {/* Dark Mode Toggle */}
         <button
           onClick={() => setDarkMode(!darkMode)}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all active:scale-95 ${
+          className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl text-xs font-bold transition-all active:scale-95 shrink-0 touch-highlight ${
             darkMode
               ? "bg-yellow-400 text-gray-900 hover:bg-yellow-300"
               : "bg-gray-800 text-white hover:bg-gray-700"
           }`}
         >
-          {darkMode ? "☀️ Light" : "🌙 Dark"}
+          {darkMode ? "☀️" : "🌙"}
+          <span className="hidden sm:inline">{darkMode ? "Light" : "Dark"}</span>
         </button>
       </div>
 
       <div className="flex min-h-[calc(100vh-73px)] relative">
-        {/* ── Mobile Overlay ── */}
         {sidebarOpen && (
           <div
             className="fixed inset-0 z-40 bg-black bg-opacity-50 md:hidden"
@@ -306,22 +293,22 @@ export default function AddPoints() {
           />
         )}
 
-        {/* ── Sidebar ── */}
+        {/* Sidebar */}
         <div
           className={`
           fixed md:static z-50 top-0 left-0 h-full
           w-64 md:w-56 shrink-0
-          flex flex-col gap-6 px-6 py-8
+          flex flex-col gap-4 sm:gap-6 px-4 sm:px-6 py-6 sm:py-8
           border-r transition-transform duration-300
           ${dm.sidebar}
           ${sidebarOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full md:translate-x-0"}
         `}
         >
           <div className="flex items-center justify-between md:hidden mb-2">
-            <span className={`text-sm font-bold ${dm.text}`}>Menu</span>
+            <span className={`text-xs sm:text-sm font-bold ${dm.text}`}>Menu</span>
             <button
               onClick={() => setSidebarOpen(false)}
-              className="text-gray-400 hover:text-gray-600 font-bold text-lg"
+              className="text-gray-400 hover:text-gray-600 font-bold text-lg touch-highlight"
             >
               ✕
             </button>
@@ -337,8 +324,8 @@ export default function AddPoints() {
                   state: { username, users, school, darkMode },
                 });
               }}
-              className={`text-left text-sm font-mono transition-all duration-150 hover:text-blue-500 ${
-                activePage === item ? "text-blue-500 font-bold" : dm.text
+              className={`text-left text-xs sm:text-sm font-mono transition-all duration-150 hover:text-blue-500 py-2 px-2 rounded-lg touch-highlight ${
+                activePage === item ? "text-blue-500 font-bold bg-opacity-10 bg-blue-500" : dm.text
               }`}
             >
               {item}
@@ -346,39 +333,39 @@ export default function AddPoints() {
           ))}
         </div>
 
-        {/* ── Main Content ── */}
+        {/* Main Content */}
         <div
-          className={`flex-1 px-4 md:px-8 py-5 md:py-6 flex flex-col gap-4 md:gap-5 ${dm.main}`}
+          className={`flex-1 px-2 sm:px-3 md:px-6 lg:px-8 py-3 sm:py-4 md:py-5 lg:py-6 flex flex-col gap-3 sm:gap-4 md:gap-5 overflow-x-hidden ${dm.main}`}
         >
           {/* Flash */}
           {flash && (
             <div
-              className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-xl text-white text-sm font-bold shadow-lg ${flash.color}`}
+              className={`fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-50 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-white text-xs sm:text-sm font-bold shadow-lg ${flash.color}`}
             >
               {flash.msg}
             </div>
           )}
 
           {/* Header */}
-          <div className="flex items-center justify-between flex-wrap gap-2">
-            <div>
-              <h2 className="text-base md:text-lg font-bold text-pink-500">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3 flex-wrap">
+            <div className="min-w-0">
+              <h2 className="text-sm sm:text-base md:text-lg font-bold text-pink-500">
                 Add Points
               </h2>
               <p className={`text-xs mt-0.5 ${dm.subtext}`}>
                 Log scores and activities per team
               </p>
             </div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="bg-pink-100 text-pink-600 text-xs font-bold px-3 py-1 rounded-full">
-                {currentDayLogs.length} Events Logged
+            <div className="flex items-center gap-2 flex-wrap text-xs sm:text-sm">
+              <span className="bg-pink-100 text-pink-600 text-xs font-bold px-2 sm:px-3 py-1 rounded-full shrink-0">
+                {currentDayLogs.length} Events
               </span>
               <div
-                className={`flex items-center gap-1 border rounded-lg px-3 py-1.5 ${dm.dayBtn}`}
+                className={`flex items-center gap-1 border rounded-lg px-2 sm:px-3 py-1.5 ${dm.dayBtn}`}
               >
                 <button
                   onClick={() => setCurrentDay(Math.max(0, currentDay - 1))}
-                  className={`font-bold text-sm transition-colors ${dm.subtext} hover:text-blue-500`}
+                  className={`font-bold transition-colors hover:text-blue-500 ${dm.subtext}`}
                 >
                   ‹
                 </button>
@@ -389,7 +376,7 @@ export default function AddPoints() {
                   onClick={() =>
                     setCurrentDay(Math.min(DAYS.length - 1, currentDay + 1))
                   }
-                  className={`font-bold text-sm transition-colors ${dm.subtext} hover:text-blue-500`}
+                  className={`font-bold transition-colors hover:text-blue-500 ${dm.subtext}`}
                 >
                   ›
                 </button>
@@ -399,34 +386,34 @@ export default function AddPoints() {
 
           {/* Mobile Tab Switch */}
           <div
-            className={`flex md:hidden gap-2 border rounded-xl p-1.5 ${dm.card}`}
+            className={`flex md:hidden gap-2 border rounded-lg p-1.5 ${dm.card}`}
           >
             {["form", "totals"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
+                className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all touch-highlight ${
                   activeTab === tab
                     ? "bg-pink-500 text-white"
-                    : `${dm.text} hover:bg-gray-100`
+                    : `${dm.text} hover:bg-opacity-50 hover:bg-gray-400`
                 }`}
               >
-                {tab === "form" ? "➕ Add Points" : "🏆 Totals & Log"}
+                {tab === "form" ? "➕ Add" : "🏆 Totals"}
               </button>
             ))}
           </div>
 
-          {/* ── Desktop: 2 col | Mobile: tabs ── */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+          {/* Desktop: 2 col | Mobile: tabs */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-5">
             {/* LEFT: Form + Presets */}
             <div
-              className={`flex flex-col gap-4 ${activeTab === "totals" ? "hidden md:flex" : "flex"}`}
+              className={`flex flex-col gap-3 sm:gap-4 md:gap-5 ${activeTab === "totals" ? "hidden md:flex" : "flex"}`}
             >
               {/* Entry Card */}
               <div
-                className={`border-2 border-green-300 rounded-xl p-4 md:p-5 shadow-sm ${dm.card}`}
+                className={`border-2 border-green-300 rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 shadow-sm ${dm.card}`}
               >
-                <h3 className="text-sm font-bold text-green-500 mb-4 pb-2 border-b border-green-200">
+                <h3 className="text-xs sm:text-sm font-bold text-green-500 mb-3 sm:mb-4 pb-2 border-b border-green-200">
                   ➕ Add Points Entry
                 </h3>
 
@@ -440,7 +427,7 @@ export default function AddPoints() {
                   <select
                     value={selectedTeam}
                     onChange={(e) => setSelectedTeam(e.target.value)}
-                    className={`border rounded-lg px-3 py-2 text-sm font-bold font-mono w-full focus:outline-none focus:ring-2 focus:ring-green-300 transition ${dm.select}`}
+                    className={`border rounded-lg px-3 py-2 text-xs sm:text-sm font-bold font-mono w-full focus:outline-none focus:ring-2 focus:ring-green-300 transition ${dm.select}`}
                   >
                     <option key="Select">Select</option>
                     {TEAMS.map((t) => (
@@ -466,7 +453,7 @@ export default function AddPoints() {
                 </div>
 
                 {/* Points + Day */}
-                <div className="grid grid-cols-2 gap-3 mb-4">
+                <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-3 sm:mb-4">
                   <div>
                     <label
                       className={`text-xs font-bold uppercase tracking-wide mb-1 block ${dm.subtext}`}
@@ -488,17 +475,17 @@ export default function AddPoints() {
                       Day
                     </label>
                     <div
-                      className={`border rounded-lg px-3 py-1.5 flex items-center justify-between ${dm.dayBtn}`}
+                      className={`border rounded-lg px-2 sm:px-3 py-1.5 flex items-center justify-between ${dm.dayBtn}`}
                     >
                       <button
                         onClick={() =>
                           setCurrentDay(Math.max(0, currentDay - 1))
                         }
-                        className={`font-bold transition-colors hover:text-green-500 ${dm.subtext}`}
+                        className={`font-bold text-sm transition-colors hover:text-green-500 touch-highlight ${dm.subtext}`}
                       >
                         ‹
                       </button>
-                      <span className={`text-sm font-bold ${dm.text}`}>
+                      <span className={`text-xs sm:text-sm font-bold ${dm.text}`}>
                         {DAYS[currentDay]}
                       </span>
                       <button
@@ -507,7 +494,7 @@ export default function AddPoints() {
                             Math.min(DAYS.length - 1, currentDay + 1),
                           )
                         }
-                        className={`font-bold transition-colors hover:text-green-500 ${dm.subtext}`}
+                        className={`font-bold text-sm transition-colors hover:text-green-500 touch-highlight ${dm.subtext}`}
                       >
                         ›
                       </button>
@@ -516,10 +503,10 @@ export default function AddPoints() {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex gap-2 flex-wrap">
+                <div className="flex gap-1.5 sm:gap-2 flex-wrap">
                   <button
                     onClick={handleAdd}
-                    className="bg-orange-400 hover:bg-orange-500 active:scale-95 text-white text-sm font-bold px-5 py-2 rounded-lg transition-all"
+                    className="flex-1 bg-orange-400 hover:bg-orange-500 active:scale-95 text-white text-xs sm:text-sm font-bold px-2 sm:px-3 py-2 sm:py-2.5 rounded-lg transition-all min-w-[60px] touch-highlight"
                   >
                     Add
                   </button>
@@ -528,41 +515,41 @@ export default function AddPoints() {
                       setActivity(activity || "+5 Quick");
                       setPoints(5);
                     }}
-                    className="bg-green-500 hover:bg-green-600 active:scale-95 text-white text-sm font-bold px-4 py-2 rounded-lg transition-all"
+                    className="flex-1 bg-green-500 hover:bg-green-600 active:scale-95 text-white text-xs sm:text-sm font-bold px-2 sm:px-3 py-2 sm:py-2.5 rounded-lg transition-all min-w-[60px] touch-highlight"
                   >
-                    +5 Quick
+                    +5
                   </button>
                   <button
                     onClick={() => {
                       setActivity(activity || "-5 Penalty");
                       setPoints(-5);
                     }}
-                    className="bg-red-500 hover:bg-red-600 active:scale-95 text-white text-sm font-bold px-4 py-2 rounded-lg transition-all"
+                    className="flex-1 bg-red-500 hover:bg-red-600 active:scale-95 text-white text-xs sm:text-sm font-bold px-2 sm:px-3 py-2 sm:py-2.5 rounded-lg transition-all min-w-[60px] touch-highlight"
                   >
-                    -5 Penalty
+                    -5
                   </button>
                 </div>
               </div>
 
               {/* Presets */}
-              <div className={`border rounded-xl p-4 shadow-sm ${dm.card}`}>
-                <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
-                  <h3 className={`text-sm font-bold ${dm.text}`}>
+              <div className={`border rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-sm ${dm.card}`}>
+                <div className="flex items-center justify-between mb-3 flex-col sm:flex-row gap-2">
+                  <h3 className={`text-xs sm:text-sm font-bold ${dm.text}`}>
                     ⚡ Quick Presets
                   </h3>
                   <button
                     onClick={() => setShowEditPresets(!showEditPresets)}
-                    className="bg-pink-500 hover:bg-pink-600 active:scale-95 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all"
+                    className="bg-pink-500 hover:bg-pink-600 active:scale-95 text-white text-xs font-bold px-2 sm:px-3 py-1.5 rounded-lg transition-all w-full sm:w-auto touch-highlight"
                   >
-                    Edit Presets (one-tap)
+                    Edit Presets
                   </button>
                 </div>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2">
                   {presets.map((preset) => (
                     <button
                       key={preset.id}
                       onClick={() => handlePresetClick(preset)}
-                      className={`text-xs font-bold px-3 py-2 rounded-lg active:scale-95 transition-all text-left ${preset.color}`}
+                      className={`text-xs sm:text-sm font-bold px-2 sm:px-3 py-1.5 sm:py-2.5 rounded-lg active:scale-95 transition-all text-left truncate touch-highlight ${preset.color}`}
                     >
                       {preset.label} ({preset.points > 0 ? "+" : ""}
                       {preset.points})
@@ -573,14 +560,14 @@ export default function AddPoints() {
                 {/* Edit Presets Panel */}
                 {showEditPresets && (
                   <div
-                    className={`mt-4 border-t pt-4 ${darkMode ? "border-gray-600" : "border-gray-100"}`}
+                    className={`mt-3 sm:mt-4 border-t pt-3 sm:pt-4 ${darkMode ? "border-gray-600" : "border-gray-100"}`}
                   >
                     <h4
-                      className={`text-xs font-bold uppercase tracking-wide mb-3 ${dm.subtext}`}
+                      className={`text-xs font-bold uppercase tracking-wide mb-2 sm:mb-3 ${dm.subtext}`}
                     >
                       {editPreset ? "Edit Preset" : "Add New Preset"}
                     </h4>
-                    <div className="grid grid-cols-2 gap-3 mb-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-2 sm:mb-3">
                       <div>
                         <label
                           className={`text-xs font-semibold mb-1 block ${dm.subtext}`}
@@ -597,7 +584,7 @@ export default function AddPoints() {
                               label: e.target.value,
                             })
                           }
-                          className={`border rounded-lg px-2 py-1.5 text-xs w-full focus:outline-none focus:ring-2 focus:ring-pink-300 transition ${
+                          className={`border rounded-lg px-2 py-1.5 sm:py-2 text-xs w-full focus:outline-none focus:ring-2 focus:ring-pink-300 transition ${
                             darkMode
                               ? "bg-gray-700 border-gray-600 text-gray-100"
                               : "bg-gray-50 border-gray-200 text-gray-700"
@@ -620,7 +607,7 @@ export default function AddPoints() {
                               points: e.target.value,
                             })
                           }
-                          className={`border rounded-lg px-2 py-1.5 text-xs w-full focus:outline-none focus:ring-2 focus:ring-pink-300 transition ${
+                          className={`border rounded-lg px-2 py-1.5 sm:py-2 text-xs w-full focus:outline-none focus:ring-2 focus:ring-pink-300 transition ${
                             darkMode
                               ? "bg-gray-700 border-gray-600 text-gray-100"
                               : "bg-gray-50 border-gray-200 text-gray-700"
@@ -628,10 +615,10 @@ export default function AddPoints() {
                         />
                       </div>
                     </div>
-                    <div className="flex gap-2 mb-3">
+                    <div className="flex gap-1.5 sm:gap-2 mb-3 flex-wrap">
                       <button
                         onClick={handleSavePreset}
-                        className="bg-pink-500 hover:bg-pink-600 text-white text-xs font-bold px-4 py-1.5 rounded-lg active:scale-95 transition-all"
+                        className="bg-pink-500 hover:bg-pink-600 text-white text-xs sm:text-sm font-bold px-3 py-1.5 sm:py-2 rounded-lg active:scale-95 transition-all touch-highlight"
                       >
                         {editPreset ? "Save Edit" : "Add Preset"}
                       </button>
@@ -641,7 +628,7 @@ export default function AddPoints() {
                             setEditPreset(null);
                             setNewPreset({ label: "", points: "" });
                           }}
-                          className="bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs font-bold px-4 py-1.5 rounded-lg active:scale-95 transition-all"
+                          className="bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs sm:text-sm font-bold px-3 py-1.5 sm:py-2 rounded-lg active:scale-95 transition-all touch-highlight"
                         >
                           Cancel
                         </button>
@@ -651,13 +638,13 @@ export default function AddPoints() {
                       {presets.map((p) => (
                         <div
                           key={p.id}
-                          className={`flex items-center justify-between rounded-lg px-3 py-1.5 ${dm.presetBg}`}
+                          className={`flex items-center justify-between rounded-lg px-3 py-1.5 gap-2 ${dm.presetBg}`}
                         >
-                          <span className={`text-xs font-bold ${dm.text}`}>
+                          <span className={`text-xs font-bold truncate ${dm.text}`}>
                             {p.label} ({p.points > 0 ? "+" : ""}
                             {p.points})
                           </span>
-                          <div className="flex gap-1">
+                          <div className="flex gap-1 shrink-0">
                             <button
                               onClick={() => {
                                 setEditPreset(p);
@@ -666,7 +653,7 @@ export default function AddPoints() {
                                   points: String(p.points),
                                 });
                               }}
-                              className="text-xs text-yellow-500 hover:text-yellow-400 font-bold px-2 py-0.5 rounded transition-colors"
+                              className="text-xs text-yellow-500 hover:text-yellow-400 font-bold px-2 py-0.5 rounded transition-colors touch-highlight"
                             >
                               ✏️
                             </button>
@@ -674,7 +661,7 @@ export default function AddPoints() {
                               onClick={() =>
                                 setPresets(presets.filter((x) => x.id !== p.id))
                               }
-                              className="text-xs text-red-400 hover:text-red-500 font-bold px-2 py-0.5 rounded transition-colors"
+                              className="text-xs text-red-400 hover:text-red-500 font-bold px-2 py-0.5 rounded transition-colors touch-highlight"
                             >
                               ✕
                             </button>
@@ -689,12 +676,12 @@ export default function AddPoints() {
 
             {/* RIGHT: Team Totals + Log */}
             <div
-              className={`flex flex-col gap-4 ${activeTab === "form" ? "hidden md:flex" : "flex"}`}
+              className={`flex flex-col gap-3 sm:gap-4 md:gap-5 ${activeTab === "form" ? "hidden md:flex" : "flex"}`}
             >
               {/* Team Totals */}
-              <div className={`border rounded-xl p-4 shadow-sm ${dm.card}`}>
+              <div className={`border rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-sm ${dm.card}`}>
                 <h3
-                  className={`text-sm font-bold mb-3 pb-2 border-b ${dm.text} ${darkMode ? "border-gray-700" : "border-gray-100"}`}
+                  className={`text-xs sm:text-sm font-bold mb-3 pb-2 border-b ${dm.text} ${darkMode ? "border-gray-700" : "border-gray-100"}`}
                 >
                   🏆 Team Totals — {DAYS[currentDay]}
                 </h3>
@@ -707,19 +694,19 @@ export default function AddPoints() {
                       <div
                         key={team}
                         onClick={() => setSelectedTeam(team)}
-                        className={`flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer transition-all ${
+                        className={`flex items-center gap-2 px-2 sm:px-3 py-2 sm:py-2.5 rounded-lg cursor-pointer transition-all touch-highlight ${
                           selectedTeam === team
                             ? dm.teamRow
                             : `hover:${darkMode ? "bg-gray-700" : "bg-gray-50"}`
                         }`}
                       >
                         <span
-                          className={`text-xs font-bold w-36 truncate ${dm.text}`}
+                          className={`text-xs sm:text-sm font-bold flex-1 truncate ${dm.text}`}
                         >
                           {team}
                         </span>
                         <div
-                          className={`flex-1 rounded-full h-2 ${darkMode ? "bg-gray-600" : "bg-gray-100"}`}
+                          className={`flex-shrink-0 w-12 sm:w-16 md:w-20 rounded-full h-2 ${darkMode ? "bg-gray-600" : "bg-gray-100"}`}
                         >
                           <div
                             className={`h-2 rounded-full transition-all duration-500 ${total < 0 ? "bg-red-400" : "bg-green-400"}`}
@@ -727,7 +714,7 @@ export default function AddPoints() {
                           />
                         </div>
                         <span
-                          className={`text-xs font-bold w-10 text-right ${total < 0 ? "text-red-500" : dm.text}`}
+                          className={`text-xs sm:text-sm font-bold w-8 text-right shrink-0 ${total < 0 ? "text-red-500" : dm.text}`}
                         >
                           {total > 0 ? "+" : ""}
                           {total}
@@ -740,41 +727,40 @@ export default function AddPoints() {
 
               {/* Recent Log */}
               <div
-                className={`border rounded-xl shadow-sm overflow-hidden flex-1 ${dm.card}`}
+                className={`border rounded-lg sm:rounded-xl shadow-sm overflow-hidden flex-1 ${dm.card}`}
               >
                 <div
-                  className={`px-4 py-3 border-b flex items-center justify-between ${darkMode ? "border-gray-700" : "border-gray-100"}`}
+                  className={`px-3 sm:px-4 py-2.5 sm:py-3 border-b flex items-center justify-between ${darkMode ? "border-gray-700" : "border-gray-100"}`}
                 >
-                  <h3 className={`text-sm font-bold ${dm.text}`}>
+                  <h3 className={`text-xs sm:text-sm font-bold ${dm.text}`}>
                     📋 Recent Log
                   </h3>
                 </div>
                 {currentDayLogs.length === 0 ? (
                   <div
-                    className={`px-4 py-8 text-center text-xs ${dm.subtext}`}
+                    className={`px-3 sm:px-4 py-6 sm:py-8 text-center text-xs ${dm.subtext}`}
                   >
-                    No points logged yet. Use the form or presets to add
-                    entries.
+                    No points logged yet. Use the form or presets to add entries.
                   </div>
                 ) : (
                   <div className="max-h-64 overflow-y-auto">
                     {currentDayLogs.map((entry, index) => (
                       <div
                         key={index}
-                        className={`flex items-center justify-between px-4 py-2.5 border-b transition-colors ${dm.logRow}`}
+                        className={`flex items-center justify-between px-2 sm:px-4 py-2 sm:py-3 border-b transition-colors gap-2 ${dm.logRow}`}
                       >
-                        <div className="flex flex-col min-w-0">
+                        <div className="flex flex-col min-w-0 flex-1">
                           <span
-                            className={`text-xs font-bold truncate ${dm.text}`}
+                            className={`text-xs sm:text-sm font-bold truncate ${dm.text}`}
                           >
                             {entry.team}
                           </span>
                           <span className={`text-xs truncate ${dm.subtext}`}>
-                            {entry.events} · {DAYS[currentDay]} · {entry.time}
+                            {entry.events} · {DAYS[currentDay]}
                           </span>
                         </div>
                         <span
-                          className={`text-sm font-bold px-2.5 py-0.5 rounded-full ml-2 shrink-0 ${
+                          className={`text-xs sm:text-sm font-bold px-2 sm:px-2.5 py-0.5 rounded-full shrink-0 ${
                             entry.points >= 0
                               ? "bg-green-100 text-green-700"
                               : "bg-red-100 text-red-600"

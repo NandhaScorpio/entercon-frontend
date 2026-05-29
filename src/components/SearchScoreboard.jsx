@@ -61,8 +61,8 @@ export default function SearchScoreboard() {
       : "text-gray-800",
   };
 
-  const inputClass = `border rounded-lg px-3 py-2 text-sm font-mono w-full focus:outline-none focus:ring-2 transition ${dm.input}`;
-  const labelClass = `text-xs font-semibold uppercase tracking-wide mb-1 block ${dm.subtext}`;
+  const inputClass = `border rounded-lg px-3 py-2 sm:py-2.5 text-xs sm:text-sm font-mono w-full focus:outline-none focus:ring-2 transition ${dm.input}`;
+  const labelClass = `text-xs font-semibold uppercase tracking-wide mb-1 sm:mb-2 block ${dm.subtext}`;
 
   // Backend Logic - UNCHANGED
   const handleSearch = () => {
@@ -82,7 +82,7 @@ export default function SearchScoreboard() {
     <div className={`min-h-screen border-2 border-dashed rounded-xl font-mono transition-colors duration-300 ${dm.page}`}>
 
       {/* Top Bar - EXACT COPY from AddUsers */}
-      <div className={`flex items-center justify-between px-4 py-4 border-b ${dm.title}`}>
+      <div className={`flex items-center justify-between px-3 sm:px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b ${dm.title}`}>
         <button
           onClick={() => setSidebarOpen(true)}
           className="md:hidden p-2 rounded-lg text-gray-400 hover:bg-gray-100 transition-colors"
@@ -102,7 +102,7 @@ export default function SearchScoreboard() {
           </svg>
         </button>
 
-        <h1 className={`text-base md:text-xl font-bold text-center flex-1 ${dm.text}`}>
+        <h1 className={`text-sm sm:text-sm sm:text-base md:text-lg font-bold text-center flex-1 ${dm.text}`}>
           Welcome to Entercon Score Page!
         </h1>
 
@@ -131,7 +131,7 @@ export default function SearchScoreboard() {
         <div className={`
           fixed md:static z-50 top-0 left-0 h-full
           w-64 md:w-56 shrink-0
-          flex flex-col gap-6 px-6 py-8
+          flex flex-col gap-3 sm:gap-4 md:gap-2 sm:gap-3 md:gap-4 lg:gap-5 lg:gap-6 px-6 py-8
           border-r transition-transform duration-300
           ${dm.sidebar}
           ${sidebarOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full md:translate-x-0"}
@@ -164,12 +164,12 @@ export default function SearchScoreboard() {
         </div>
 
         {/* Main Content - EXACT STYLING from AddUsers */}
-        <div className={`flex-1 px-4 md:px-10 py-6 md:py-8 flex flex-col gap-5 md:gap-6 ${dm.main}`}>
+        <div className={`flex-1 px-4 md:px-10 py-6 md:py-8 flex flex-col gap-2 sm:gap-3 md:gap-4 lg:gap-5 md:gap-3 sm:gap-4 md:gap-2 sm:gap-3 md:gap-4 lg:gap-5 lg:gap-6 ${dm.main}`}>
 
           {/* Header - EXACT COPY structure */}
           <div className="flex items-center justify-between flex-wrap gap-3">
             <div>
-              <h2 className={`text-base md:text-lg font-bold ${dm.text}`}>
+              <h2 className={`text-sm sm:text-base md:text-lg font-bold ${dm.text}`}>
                 Search Scoreboard
               </h2>
               <p className={`text-xs mt-0.5 ${dm.subtext}`}>
@@ -191,7 +191,7 @@ export default function SearchScoreboard() {
             <h3 className={`text-sm font-bold mb-5 pb-3 border-b ${dm.text} ${darkMode ? "border-gray-700" : "border-gray-100"}`}>
               🔍 Search Filters
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 mb-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-2 sm:gap-3 md:gap-4 lg:gap-5 mb-5">
               <div>
                 <label className={labelClass}>School Name</label>
                 <input
@@ -237,7 +237,7 @@ export default function SearchScoreboard() {
           {/* Results Table - EXACT table styling from AddUsers */}
           {searched && (
             <div className={`border rounded-xl shadow-sm overflow-hidden ${dm.card}`}>
-              <div className={`px-4 md:px-6 py-3 border-b flex items-center justify-between flex-wrap gap-2 ${darkMode ? "border-gray-700" : "border-gray-100"}`}>
+              <div className={`px-3 sm:px-4 md:px-6 py-3 border-b flex items-center justify-between flex-wrap gap-2 ${darkMode ? "border-gray-700" : "border-gray-100"}`}>
                 <h3 className={`text-sm font-bold ${dm.text}`}>📋 See Results</h3>
                 <span className={`text-xs ${dm.subtext}`}>{results.length} record{results.length !== 1 ? "s" : ""}</span>
               </div>

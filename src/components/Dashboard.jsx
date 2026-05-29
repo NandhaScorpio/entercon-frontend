@@ -36,31 +36,28 @@ export default function Dashboard() {
 
   const data = school;
 
-  // Total Programs
   const totalPrograms = data.length;
 
-  // Total Schools (unique school names)
   const totalSchools = new Set(
     data.map((item) => item.schoolName.trim().toLowerCase()),
   ).size;
 
   const participants = data.reduce((sum, item) => sum + item.participants, 0);
 
-  // ── Your original data ──
   const stats = [
     {
       label: "Total Schools",
       value: totalSchools,
       color: darkMode
-        ? "bg-blue-900   text-blue-200"
-        : "bg-blue-100   text-blue-700",
+        ? "bg-blue-900 text-blue-200"
+        : "bg-blue-100 text-blue-700",
     },
     {
       label: "Total Programs",
       value: totalPrograms,
       color: darkMode
-        ? "bg-green-900  text-green-200"
-        : "bg-green-100  text-green-700",
+        ? "bg-green-900 text-green-200"
+        : "bg-green-100 text-green-700",
     },
     {
       label: "Participants",
@@ -73,8 +70,8 @@ export default function Dashboard() {
       label: "Active Events",
       value: totalActiveEvents,
       color: darkMode
-        ? "bg-pink-900   text-pink-200"
-        : "bg-pink-100   text-pink-700",
+        ? "bg-pink-900 text-pink-200"
+        : "bg-pink-100 text-pink-700",
     },
   ];
 
@@ -84,12 +81,12 @@ export default function Dashboard() {
     {
       label: "Add School",
       page: "Add Schools",
-      color: "bg-blue-500   hover:bg-blue-600",
+      color: "bg-blue-500 hover:bg-blue-600",
     },
     {
       label: "Search Scoreboard",
       page: "Search Scoreboard",
-      color: "bg-green-500  hover:bg-green-600",
+      color: "bg-green-500 hover:bg-green-600",
     },
     {
       label: "Add Users",
@@ -97,7 +94,6 @@ export default function Dashboard() {
       color: "bg-purple-500 hover:bg-purple-600",
     },
   ];
-  // ───────────────────────
 
   const dm = {
     page: darkMode
@@ -126,14 +122,13 @@ export default function Dashboard() {
     <div
       className={`min-h-screen border-2 border-dashed rounded-xl font-mono transition-colors duration-300 ${dm.page}`}
     >
-      {/* ── Top Bar ── */}
+      {/* Top Bar */}
       <div
-        className={`flex items-center justify-between px-4 py-4 border-b ${dm.title}`}
+        className={`flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b gap-2 ${dm.title}`}
       >
-        {/* Hamburger (mobile) */}
         <button
           onClick={() => setSidebarOpen(true)}
-          className="md:hidden p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+          className="md:hidden p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors touch-highlight"
         >
           <svg
             className="w-5 h-5"
@@ -151,26 +146,26 @@ export default function Dashboard() {
         </button>
 
         <h1
-          className={`text-base md:text-xl font-bold text-center flex-1 ${dm.text}`}
+          className={`text-sm sm:text-base md:text-xl font-bold text-center flex-1 min-w-0 ${dm.text}`}
         >
           Welcome to Entercon Score Page!
         </h1>
 
-        {/* Dark Mode Toggle */}
         <button
           onClick={() => setDarkMode(!darkMode)}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all active:scale-95 ${
+          className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl text-xs font-bold transition-all active:scale-95 shrink-0 touch-highlight ${
             darkMode
               ? "bg-yellow-400 text-gray-900 hover:bg-yellow-300"
               : "bg-gray-800 text-white hover:bg-gray-700"
           }`}
         >
-          {darkMode ? "☀️ Light" : "🌙 Dark"}
+          {darkMode ? "☀️" : "🌙"}
+          <span className="hidden sm:inline">{darkMode ? "Light" : "Dark"}</span>
         </button>
       </div>
 
       <div className="flex min-h-[calc(100vh-73px)] relative">
-        {/* ── Mobile Overlay ── */}
+        {/* Mobile Overlay */}
         {sidebarOpen && (
           <div
             className={`fixed inset-0 z-40 md:hidden ${dm.overlay}`}
@@ -178,23 +173,22 @@ export default function Dashboard() {
           />
         )}
 
-        {/* ── Sidebar ── */}
+        {/* Sidebar */}
         <div
           className={`
           fixed md:static z-50 top-0 left-0 h-full
           w-64 md:w-56
-          flex flex-col gap-6 px-6 py-8
+          flex flex-col gap-4 sm:gap-6 px-4 sm:px-6 py-6 sm:py-8
           border-r transition-transform duration-300
           ${dm.sidebar}
           ${sidebarOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full md:translate-x-0"}
         `}
         >
-          {/* Close button (mobile) */}
           <div className="flex items-center justify-between md:hidden mb-2">
-            <span className={`text-sm font-bold ${dm.text}`}>Menu</span>
+            <span className={`text-xs sm:text-sm font-bold ${dm.text}`}>Menu</span>
             <button
               onClick={() => setSidebarOpen(false)}
-              className="text-gray-400 hover:text-gray-600 font-bold text-lg"
+              className="text-gray-400 hover:text-gray-600 font-bold text-lg touch-highlight"
             >
               ✕
             </button>
@@ -210,8 +204,8 @@ export default function Dashboard() {
                   state: { username, users, school, darkMode },
                 });
               }}
-              className={`text-left text-sm font-mono transition-all duration-150 hover:text-blue-500 ${
-                activePage === item ? "text-blue-500 font-bold" : dm.text
+              className={`text-left text-xs sm:text-sm font-mono transition-all duration-150 hover:text-blue-500 py-2 px-2 rounded-lg touch-highlight ${
+                activePage === item ? "text-blue-500 font-bold bg-opacity-10 bg-blue-500" : dm.text
               }`}
             >
               {item}
@@ -219,34 +213,34 @@ export default function Dashboard() {
           ))}
         </div>
 
-        {/* ── Main Content ── */}
+        {/* Main Content */}
         <div
-          className={`flex-1 px-4 md:px-10 py-6 md:py-8 flex flex-col gap-6 md:gap-8 ${dm.main}`}
+          className={`flex-1 px-3 sm:px-4 md:px-6 lg:px-10 py-4 sm:py-5 md:py-6 lg:py-8 flex flex-col gap-3 sm:gap-4 md:gap-6 overflow-x-hidden ${dm.main}`}
         >
           {/* Welcome Banner */}
-          <div className="bg-blue-600 rounded-xl px-5 md:px-8 py-5 md:py-6 text-white flex items-center justify-between">
-            <div>
-              <h2 className="text-base md:text-lg font-bold mb-1">
+          <div className="bg-blue-600 rounded-lg sm:rounded-xl px-3 sm:px-4 md:px-6 py-3 sm:py-4 md:py-5 text-white flex items-center justify-between gap-2 sm:gap-3">
+            <div className="min-w-0">
+              <h2 className="text-sm sm:text-base md:text-lg font-bold mb-0.5 sm:mb-1">
                 Hello, {username} 👋
               </h2>
-              <p className="text-xs md:text-sm text-blue-100">
+              <p className="text-xs sm:text-sm text-blue-100 truncate">
                 Here's what's happening with Entercon today.
               </p>
             </div>
-            <div className="text-3xl md:text-4xl">🏆</div>
+            <div className="text-2xl sm:text-3xl md:text-4xl shrink-0">🏆</div>
           </div>
 
-          {/* Stat Cards — 2 cols on mobile, 4 on desktop */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+          {/* Stat Cards */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
             {stats.map((stat) => (
               <div
                 key={stat.label}
-                className={`rounded-xl px-4 md:px-5 py-3 md:py-4 flex flex-col gap-1 ${stat.color}`}
+                className={`rounded-lg sm:rounded-xl px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 flex flex-col gap-0.5 sm:gap-1 ${stat.color}`}
               >
-                <span className="text-xl md:text-2xl font-bold">
+                <span className="text-lg sm:text-xl md:text-2xl font-bold">
                   {stat.value}
                 </span>
-                <span className="text-xs font-semibold uppercase tracking-wide opacity-80">
+                <span className="text-xs font-semibold uppercase tracking-wide opacity-80 line-clamp-2">
                   {stat.label}
                 </span>
               </div>
@@ -254,31 +248,31 @@ export default function Dashboard() {
           </div>
 
           {/* Recent Activity + Quick Actions */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-5">
             {/* Recent Activity Table */}
             <div
-              className={`md:col-span-2 border rounded-xl overflow-hidden ${dm.card}`}
+              className={`lg:col-span-2 border rounded-lg sm:rounded-xl overflow-hidden ${dm.card}`}
             >
-              <div className={`px-5 py-3 border-b ${dm.title}`}>
-                <h3 className={`text-sm font-bold ${dm.text}`}>
+              <div className={`px-3 sm:px-4 md:px-5 py-2.5 sm:py-3 border-b ${dm.title}`}>
+                <h3 className={`text-xs sm:text-sm font-bold ${dm.text}`}>
                   Recent Activity
                 </h3>
               </div>
-              {/* Scrollable on mobile */}
-              <div className="overflow-x-auto">
-                <table className="w-full text-xs min-w-[400px]">
+              {/* Desktop Table */}
+              <div className="hidden md:block overflow-x-auto">
+                <table className="w-full text-xs sm:text-sm">
                   <thead className={`uppercase tracking-wide ${dm.thead}`}>
                     <tr>
-                      <th className="px-5 py-2 text-left font-semibold">
+                      <th className="px-3 sm:px-4 md:px-5 py-2.5 text-left font-semibold">
                         School
                       </th>
-                      <th className="px-5 py-2 text-left font-semibold">
+                      <th className="px-3 sm:px-4 md:px-5 py-2.5 text-left font-semibold">
                         Program
                       </th>
-                      <th className="px-5 py-2 text-left font-semibold">
+                      <th className="px-3 sm:px-4 md:px-5 py-2.5 text-left font-semibold">
                         Date
                       </th>
-                      <th className="px-5 py-2 text-left font-semibold">
+                      <th className="px-3 sm:px-4 md:px-5 py-2.5 text-left font-semibold">
                         Participants
                       </th>
                     </tr>
@@ -289,17 +283,17 @@ export default function Dashboard() {
                         key={i}
                         className={`border-t transition-colors ${dm.trow}`}
                       >
-                        <td className={`px-5 py-2.5 font-medium ${dm.tcell}`}>
+                        <td className={`px-3 sm:px-4 md:px-5 py-2.5 font-medium ${dm.tcell}`}>
                           {row.schoolName}
                         </td>
-                        <td className={`px-5 py-2.5 ${dm.subtext}`}>
+                        <td className={`px-3 sm:px-4 md:px-5 py-2.5 ${dm.subtext}`}>
                           {row.programName}
                         </td>
-                        <td className={`px-5 py-2.5 ${dm.subtext}`}>
+                        <td className={`px-3 sm:px-4 md:px-5 py-2.5 ${dm.subtext}`}>
                           {row.startDate}
                         </td>
-                        <td className="px-5 py-2.5">
-                          <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-xs font-bold">
+                        <td className="px-3 sm:px-4 md:px-5 py-2.5">
+                          <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-xs font-bold inline-block">
                             {row.participants}
                           </span>
                         </td>
@@ -308,14 +302,41 @@ export default function Dashboard() {
                   </tbody>
                 </table>
               </div>
+              {/* Mobile Card View */}
+              <div className="md:hidden space-y-2 p-2 sm:p-3">
+                {recentActivity.slice(0, 5).map((row, i) => (
+                  <div key={i} className={`border rounded-lg p-2.5 sm:p-3 ${darkMode ? "border-gray-700 bg-gray-700 bg-opacity-50" : "border-gray-200 bg-gray-50"}`}>
+                    <div className="grid grid-cols-2 gap-2 mb-2">
+                      <div>
+                        <p className={`text-xs font-semibold ${dm.subtext}`}>School</p>
+                        <p className={`text-xs font-bold ${dm.text} truncate`}>{row.schoolName}</p>
+                      </div>
+                      <div>
+                        <p className={`text-xs font-semibold ${dm.subtext}`}>Program</p>
+                        <p className={`text-xs font-bold ${dm.text} truncate`}>{row.programName}</p>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <p className={`text-xs font-semibold ${dm.subtext}`}>Date</p>
+                        <p className={`text-xs ${dm.text}`}>{row.startDate}</p>
+                      </div>
+                      <div>
+                        <p className={`text-xs font-semibold ${dm.subtext}`}>Participants</p>
+                        <p className={`text-xs font-bold ${dm.text}`}>{row.participants}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Quick Actions */}
             <div
-              className={`border rounded-xl p-5 flex flex-col gap-4 ${dm.card}`}
+              className={`border rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 flex flex-col gap-2 sm:gap-3 ${dm.card}`}
             >
               <h3
-                className={`text-sm font-bold border-b pb-3 ${dm.text} ${dm.title}`}
+                className={`text-xs sm:text-sm font-bold border-b pb-2 sm:pb-3 ${dm.text} ${dm.title}`}
               >
                 Quick Actions
               </h3>
@@ -328,12 +349,11 @@ export default function Dashboard() {
                       state: { username, users, school, darkMode },
                     });
                   }}
-                  className={`w-full text-white text-sm font-bold py-2.5 rounded-lg transition-all duration-150 active:scale-95 ${action.color}`}
+                  className={`w-full text-white text-xs sm:text-sm font-bold py-2 sm:py-2.5 md:py-3 rounded-lg transition-all duration-150 active:scale-95 touch-highlight ${action.color}`}
                 >
                   {action.label}
                 </button>
               ))}
-
             </div>
           </div>
         </div>

@@ -249,7 +249,7 @@ export default function ScoreboardMode3() {
     >
       {/* ── Top Bar ── */}
       <div
-        className={`flex items-center justify-between px-4 py-4 border-b ${dm.title}`}
+        className={`flex items-center justify-between px-3 sm:px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b ${dm.title}`}
       >
         <button
           onClick={() => setSidebarOpen(true)}
@@ -270,7 +270,7 @@ export default function ScoreboardMode3() {
           </svg>
         </button>
         <h1
-          className={`text-base md:text-xl font-bold text-center flex-1 ${dm.title}`}
+          className={`text-sm sm:text-sm sm:text-base md:text-lg font-bold text-center flex-1 ${dm.title}`}
         >
           Welcome to Entercon Score Page!
         </h1>
@@ -298,7 +298,7 @@ export default function ScoreboardMode3() {
         <div
           className={`
           fixed md:static z-50 top-0 left-0 h-full
-          w-64 md:w-56 shrink-0 flex flex-col gap-6 px-6 py-8
+          w-64 md:w-56 shrink-0 flex flex-col gap-3 sm:gap-4 md:gap-2 sm:gap-3 md:gap-4 lg:gap-5 lg:gap-6 px-6 py-8
           border-r transition-transform duration-300
           ${dm.sidebar}
           ${sidebarOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full md:translate-x-0"}
@@ -341,7 +341,7 @@ export default function ScoreboardMode3() {
 
         {/* ── Main Content ── */}
         <div
-          className={`flex-1 px-3 md:px-4 py-3 md:py-4 flex flex-col gap-3 ${dm.mainBg}`}
+          className={`flex-1 px-3 sm:px-3 sm:px-4 md:px-6 py-3 sm:py-4 md:py-5 flex flex-col gap-3 sm:gap-4 ${dm.mainBg}`}
         >
           {/* Header Bar */}
           <div className={`rounded-xl p-3 flex flex-col gap-2 ${dm.headerBar}`}>

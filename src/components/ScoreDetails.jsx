@@ -126,7 +126,7 @@ export default function ScoreDetails() {
     >
       {/* ── Top Bar ── */}
       <div
-        className={`flex items-center justify-between px-4 py-4 border-b ${dm.title}`}
+        className={`flex items-center justify-between px-3 sm:px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b ${dm.title}`}
       >
         <button
           onClick={() => setSidebarOpen(true)}
@@ -148,7 +148,7 @@ export default function ScoreDetails() {
         </button>
 
         <h1
-          className={`text-base md:text-xl font-bold text-center flex-1 ${dm.text}`}
+          className={`text-sm sm:text-sm sm:text-base md:text-lg font-bold text-center flex-1 ${dm.text}`}
         >
           Welcome to Entercon Score Page!
         </h1>
@@ -178,7 +178,7 @@ export default function ScoreDetails() {
         <div
           className={`
           fixed md:static z-50 top-0 left-0 h-full w-64 md:w-56 shrink-0
-          flex flex-col gap-6 px-6 py-8 border-r transition-transform duration-300
+          flex flex-col gap-3 sm:gap-4 md:gap-2 sm:gap-3 md:gap-4 lg:gap-5 lg:gap-6 px-6 py-8 border-r transition-transform duration-300
           ${dm.sidebar} ${sidebarOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full md:translate-x-0"}
         `}
         >
@@ -220,12 +220,12 @@ export default function ScoreDetails() {
 
         {/* ── Main Content ── */}
         <div
-          className={`flex-1 px-4 md:px-10 py-6 md:py-8 flex flex-col gap-5 md:gap-6 ${dm.main}`}
+          className={`flex-1 px-3 sm:px-6 md:px-10 py-4 sm:py-6 md:py-8 flex flex-col gap-4 sm:gap-2 sm:gap-3 md:gap-4 lg:gap-5 md:gap-3 sm:gap-4 md:gap-2 sm:gap-3 md:gap-4 lg:gap-5 lg:gap-6 ${dm.main}`}
         >
           {/* Page Header */}
           <div className="flex items-center justify-between flex-wrap gap-3">
             <div>
-              <h2 className={`text-base md:text-lg font-bold ${dm.text}`}>
+              <h2 className={`text-sm sm:text-base md:text-lg font-bold ${dm.text}`}>
                 Score Details
               </h2>
               <p className={`text-xs mt-0.5 ${dm.subtext}`}>
@@ -381,7 +381,7 @@ export default function ScoreDetails() {
           >
             {/* Table Header */}
             <div
-              className={`px-4 md:px-6 py-3 border-b flex items-center justify-between flex-wrap gap-2 ${
+              className={`px-3 sm:px-4 md:px-6 py-3 border-b flex items-center justify-between flex-wrap gap-2 ${
                 darkMode ? "border-gray-700" : "border-gray-100"
               }`}
             >

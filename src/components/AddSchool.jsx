@@ -99,8 +99,8 @@ export default function AddSchools() {
       : "bg-red-50 border-red-100",
   };
 
-  const inputClass = `border rounded-lg px-3 py-2 text-sm font-mono w-full focus:outline-none focus:ring-2 transition ${dm.input}`;
-  const labelClass = `text-xs font-semibold uppercase tracking-wide mb-1 block ${dm.subtext}`;
+  const inputClass = `border rounded-lg px-3 py-2 sm:px-4 sm:py-2.5 text-sm sm:text-base font-mono w-full focus:outline-none focus:ring-2 transition ${dm.input}`;
+  const labelClass = `text-xs sm:text-sm font-semibold uppercase tracking-wide mb-1 sm:mb-2 block ${dm.subtext}`;
 
   // ── Your original handlers (untouched) ──
   const resetForm = () => {
@@ -199,13 +199,14 @@ export default function AddSchools() {
 
   // teams is plain strings — grid works as before
   const teamGrid = [];
-  for (let i = 0; i < teams.length; i += 3)
-    teamGrid.push(teams.slice(i, i + 3));
+  const cols = window.innerWidth < 640 ? 1 : window.innerWidth < 1024 ? 2 : 3;
+  for (let i = 0; i < teams.length; i += cols)
+    teamGrid.push(teams.slice(i, i + cols));
 
   // selectedTeams is plain strings — grid works as before
   const selectedGrid = [];
-  for (let i = 0; i < selectedTeams.length; i += 3)
-    selectedGrid.push(selectedTeams.slice(i, i + 3));
+  for (let i = 0; i < selectedTeams.length; i += cols)
+    selectedGrid.push(selectedTeams.slice(i, i + cols));
 
   const handleFinalSave = () => {
     if (selectedTeams.length === 0) {
@@ -253,7 +254,7 @@ export default function AddSchools() {
     >
       {/* ── Top Bar ── */}
       <div
-        className={`flex items-center justify-between px-4 py-4 border-b ${dm.title}`}
+        className={`flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b gap-2 ${dm.title}`}
       >
         <button
           onClick={() => setSidebarOpen(true)}
@@ -274,7 +275,7 @@ export default function AddSchools() {
           </svg>
         </button>
         <h1
-          className={`text-base md:text-xl font-bold text-center flex-1 ${dm.title}`}
+          className={`text-sm sm:text-base md:text-lg font-bold text-center flex-1 ${dm.title}`}
         >
           Welcome to Entercon Score Page!
         </h1>
@@ -453,11 +454,11 @@ export default function AddSchools() {
                     />
                   </div>
                 </div>
-                <div className="flex gap-3 mt-6 justify-end flex-wrap">
+                <div className="flex gap-3 mt-6 justify-end flex-wrap sm:flex-nowrap">
                   {editingIndex !== null && (
                     <button
                       onClick={resetForm}
-                      className={`px-5 py-2 text-sm font-bold rounded-lg border active:scale-95 transition-all ${
+                      className={`px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-bold rounded-lg border active:scale-95 transition-all ${
                         darkMode
                           ? "border-gray-600 text-gray-300 hover:bg-gray-700"
                           : "border-gray-300 text-gray-600 hover:bg-gray-100"
@@ -471,7 +472,7 @@ export default function AddSchools() {
                       handleAddSchool();
                       setActiveStep(2);
                     }}
-                    className={`px-6 py-2 text-sm font-bold rounded-lg text-white active:scale-95 transition-all ${
+                    className={`px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-bold rounded-lg text-white active:scale-95 transition-all flex-grow sm:flex-grow-0 ${
                       editingIndex !== null
                         ? "bg-green-500 hover:bg-green-600"
                         : "bg-blue-500 hover:bg-blue-600"
@@ -489,32 +490,33 @@ export default function AddSchools() {
                   className={`border rounded-xl overflow-hidden shadow-sm ${dm.card}`}
                 >
                   <div
-                    className={`px-5 py-3 border-b ${darkMode ? "border-gray-700" : "border-gray-100"}`}
+                    className={`px-4 sm:px-5 py-3 border-b ${darkMode ? "border-gray-700" : "border-gray-100"}`}
                   >
-                    <h3 className={`text-sm font-bold ${dm.text}`}>
+                    <h3 className={`text-sm sm:text-base font-bold ${dm.text}`}>
                       Registered Schools
                     </h3>
                   </div>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-xs min-w-[560px]">
+                  {/* Desktop Table */}
+                  <div className="hidden md:block overflow-x-auto">
+                    <table className="w-full text-xs sm:text-sm min-w-[560px]">
                       <thead className={`uppercase tracking-wide ${dm.thead}`}>
                         <tr>
-                          <th className="px-5 py-2.5 text-left font-semibold">
+                          <th className="px-4 sm:px-5 py-2.5 text-left font-semibold">
                             School
                           </th>
-                          <th className="px-5 py-2.5 text-left font-semibold">
+                          <th className="px-4 sm:px-5 py-2.5 text-left font-semibold">
                             Program
                           </th>
-                          <th className="px-5 py-2.5 text-left font-semibold">
+                          <th className="px-4 sm:px-5 py-2.5 text-left font-semibold">
                             Days
                           </th>
-                          <th className="px-5 py-2.5 text-left font-semibold">
+                          <th className="px-4 sm:px-5 py-2.5 text-left font-semibold">
                             Participants
                           </th>
-                          <th className="px-5 py-2.5 text-left font-semibold">
+                          <th className="px-4 sm:px-5 py-2.5 text-left font-semibold">
                             Duration
                           </th>
-                          <th className="px-5 py-2.5 text-left font-semibold">
+                          <th className="px-4 sm:px-5 py-2.5 text-left font-semibold">
                             Actions
                           </th>
                         </tr>
@@ -526,35 +528,35 @@ export default function AddSchools() {
                             className={`border-t transition-colors ${dm.trow}`}
                           >
                             <td
-                              className={`px-5 py-2.5 font-medium ${dm.tcell}`}
+                              className={`px-4 sm:px-5 py-2.5 font-medium ${dm.tcell}`}
                             >
                               {s.schoolName}
                             </td>
-                            <td className={`px-5 py-2.5 ${dm.subtext}`}>
+                            <td className={`px-4 sm:px-5 py-2.5 ${dm.subtext}`}>
                               {s.programName}
                             </td>
-                            <td className={`px-5 py-2.5 ${dm.subtext}`}>
+                            <td className={`px-4 sm:px-5 py-2.5 ${dm.subtext}`}>
                               {s.numberOfDays}
                             </td>
-                            <td className="px-5 py-2.5">
-                              <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-bold">
+                            <td className="px-4 sm:px-5 py-2.5">
+                              <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-bold text-xs">
                                 {s.participants}
                               </span>
                             </td>
-                            <td className={`px-5 py-2.5 ${dm.subtext}`}>
+                            <td className={`px-4 sm:px-5 py-2.5 ${dm.subtext}`}>
                               {s.startDate} → {s.endDate}
                             </td>
-                            <td className="px-5 py-2.5">
+                            <td className="px-4 sm:px-5 py-2.5">
                               <div className="flex gap-2">
                                 <button
                                   onClick={() => handleEditSchool(i)}
-                                  className="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-lg font-bold hover:bg-yellow-200 active:scale-95 transition-all"
+                                  className="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-lg font-bold text-xs hover:bg-yellow-200 active:scale-95 transition-all"
                                 >
                                   Edit
                                 </button>
                                 <button
                                   onClick={() => handleDeleteSchool(i)}
-                                  className="bg-red-100 text-red-600 px-3 py-1 rounded-lg font-bold hover:bg-red-200 active:scale-95 transition-all"
+                                  className="bg-red-100 text-red-600 px-3 py-1 rounded-lg font-bold text-xs hover:bg-red-200 active:scale-95 transition-all"
                                 >
                                   Delete
                                 </button>
@@ -564,6 +566,49 @@ export default function AddSchools() {
                         ))}
                       </tbody>
                     </table>
+                  </div>
+                  {/* Mobile Card View */}
+                  <div className="md:hidden space-y-3 p-3 sm:p-4">
+                    {schools.map((s, i) => (
+                      <div key={i} className={`border rounded-lg p-4 ${darkMode ? "border-gray-700 bg-gray-700 bg-opacity-50" : "border-gray-200 bg-gray-50"}`}>
+                        <div className="grid grid-cols-2 gap-2 mb-3">
+                          <div>
+                            <p className={`text-xs font-semibold ${dm.subtext}`}>School</p>
+                            <p className={`text-sm font-bold ${dm.text}`}>{s.schoolName}</p>
+                          </div>
+                          <div>
+                            <p className={`text-xs font-semibold ${dm.subtext}`}>Program</p>
+                            <p className={`text-sm font-bold ${dm.text}`}>{s.programName}</p>
+                          </div>
+                          <div>
+                            <p className={`text-xs font-semibold ${dm.subtext}`}>Days</p>
+                            <p className={`text-sm font-bold ${dm.text}`}>{s.numberOfDays}</p>
+                          </div>
+                          <div>
+                            <p className={`text-xs font-semibold ${dm.subtext}`}>Participants</p>
+                            <p className={`text-sm font-bold ${dm.text}`}>{s.participants}</p>
+                          </div>
+                        </div>
+                        <div className="mb-3 pb-3 border-t" style={{borderColor: darkMode ? "#4B5563" : "#e5e7eb"}}>
+                          <p className={`text-xs font-semibold ${dm.subtext} mt-3 mb-1`}>Duration</p>
+                          <p className={`text-sm ${dm.text}`}>{s.startDate} → {s.endDate}</p>
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => handleEditSchool(i)}
+                            className="flex-1 bg-yellow-100 text-yellow-700 px-3 py-2 rounded-lg font-bold text-xs hover:bg-yellow-200 active:scale-95 transition-all"
+                          >
+                            ✏️ Edit
+                          </button>
+                          <button
+                            onClick={() => handleDeleteSchool(i)}
+                            className="flex-1 bg-red-100 text-red-600 px-3 py-2 rounded-lg font-bold text-xs hover:bg-red-200 active:scale-95 transition-all"
+                          >
+                            🗑️ Delete
+                          </button>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}
@@ -626,9 +671,9 @@ export default function AddSchools() {
                 )}
 
                 {/* Team Grid — teams is plain strings ✓ */}
-                <div className="p-3 md:p-4 overflow-x-auto">
+                <div className="p-2 sm:p-3 md:p-4 overflow-x-auto">
                   <table
-                    className="w-full border rounded-lg overflow-hidden text-xs md:text-sm min-w-[320px]"
+                    className="w-full border rounded-lg overflow-hidden text-xs sm:text-sm min-w-full"
                     style={{ borderColor: darkMode ? "#374151" : "#e5e7eb" }}
                   >
                     <tbody>
@@ -638,36 +683,36 @@ export default function AddSchools() {
                           className={`border-t first:border-0 ${darkMode ? "border-gray-700" : "border-gray-100"}`}
                         >
                           {row.map((team, ci) => {
-                            const idx = ri * 3 + ci;
+                            const idx = ri * cols + ci;
                             // team is a plain string ✓
                             const isSelected = selectedTeams.includes(team);
                             return (
                               <td
                                 key={ci}
                                 onClick={() => toggleTeam(team)}
-                                className={`border px-3 md:px-4 py-2.5 md:py-3 text-center cursor-pointer transition-all duration-150 select-none ${
+                                className={`border px-2 sm:px-3 md:px-4 py-2 sm:py-2.5 md:py-3 text-center cursor-pointer transition-all duration-150 select-none ${
                                   isSelected ? dm.teamSelected : dm.teamCell
                                 } ${darkMode ? "border-gray-600" : "border-gray-200"}`}
                               >
-                                <span className={`text-xs mr-1 ${dm.subtext}`}>
+                                <span className={`text-xs mr-0.5 sm:mr-1 ${dm.subtext}`}>
                                   {idx + 1}.
                                 </span>
-                                {team}
+                                <span className="text-xs sm:text-sm">{team}</span>
                                 {isSelected && (
-                                  <span className="ml-1 text-blue-400 text-xs">
+                                  <span className="ml-0.5 sm:ml-1 text-blue-400 text-xs">
                                     ✓
                                   </span>
                                 )}
                               </td>
                             );
                           })}
-                          {row.length < 3 &&
-                            Array(3 - row.length)
+                          {row.length < cols &&
+                            Array(cols - row.length)
                               .fill(null)
                               .map((_, i) => (
                                 <td
                                   key={`empty-${i}`}
-                                  className={`border px-4 py-3 ${darkMode ? "border-gray-600 bg-gray-800" : "border-gray-200"}`}
+                                  className={`border px-2 sm:px-3 md:px-4 py-2 sm:py-2.5 md:py-3 ${darkMode ? "border-gray-600 bg-gray-800" : "border-gray-200 bg-gray-50"}`}
                                 />
                               ))}
                         </tr>
@@ -705,14 +750,14 @@ export default function AddSchools() {
 
                 {selectedTeams.length === 0 ? (
                   <div
-                    className={`px-6 py-8 text-center text-sm ${dm.subtext}`}
+                    className={`px-4 sm:px-6 py-6 sm:py-8 text-center text-xs sm:text-sm ${dm.subtext}`}
                   >
                     No teams selected yet. Click teams above to add them.
                   </div>
                 ) : (
-                  <div className="p-3 md:p-4 overflow-x-auto">
+                  <div className="p-2 sm:p-3 md:p-4 overflow-x-auto">
                     <table
-                      className="w-full border rounded-lg overflow-hidden text-xs md:text-sm min-w-[320px]"
+                      className="w-full border rounded-lg overflow-hidden text-xs sm:text-sm min-w-full"
                       style={{ borderColor: darkMode ? "#374151" : "#e5e7eb" }}
                     >
                       <tbody>
@@ -722,33 +767,33 @@ export default function AddSchools() {
                             className={`border-t first:border-0 ${darkMode ? "border-gray-700" : "border-gray-100"}`}
                           >
                             {row.map((team, ci) => {
-                              const idx = ri * 3 + ci;
+                              const idx = ri * cols + ci;
                               // team is a plain string ✓ — no .name needed
                               return (
                                 <td
                                   key={ci}
-                                  className={`border px-3 md:px-4 py-2.5 md:py-3 text-center ${dm.selectedCell}`}
+                                  className={`border px-2 sm:px-3 md:px-4 py-2 sm:py-2.5 md:py-3 text-center ${dm.selectedCell}`}
                                 >
-                                  <span className="text-xs text-blue-300 mr-1">
+                                  <span className="text-xs text-blue-300 mr-0.5 sm:mr-1">
                                     {idx + 1}.
                                   </span>
-                                  {team}
+                                  <span className="text-xs sm:text-sm">{team}</span>
                                   <button
                                     onClick={() => handleRemoveSelected(team)}
-                                    className="ml-2 text-red-300 hover:text-red-500 text-xs transition-colors"
+                                    className="ml-1 text-red-300 hover:text-red-500 text-xs transition-colors"
                                   >
                                     ✕
                                   </button>
                                 </td>
                               );
                             })}
-                            {row.length < 3 &&
-                              Array(3 - row.length)
+                            {row.length < cols &&
+                              Array(cols - row.length)
                                 .fill(null)
                                 .map((_, i) => (
                                   <td
                                     key={`empty-${i}`}
-                                    className={`border px-4 py-3 ${dm.emptyCell}`}
+                                    className={`border px-2 sm:px-3 md:px-4 py-2 sm:py-2.5 md:py-3 ${dm.emptyCell}`}
                                   />
                                 ))}
                           </tr>
@@ -759,10 +804,10 @@ export default function AddSchools() {
                 )}
               </div>
 
-              <div className="flex justify-between flex-wrap gap-3">
+              <div className="flex justify-between flex-wrap gap-2 sm:gap-3">
                 <button
                   onClick={() => setActiveStep(1)}
-                  className={`px-5 py-2 text-sm font-bold rounded-lg border active:scale-95 transition-all ${
+                  className={`px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-bold rounded-lg border active:scale-95 transition-all flex-1 sm:flex-none ${
                     darkMode
                       ? "border-gray-600 text-gray-300 hover:bg-gray-700"
                       : "border-gray-300 text-gray-600 hover:bg-gray-100"
@@ -770,10 +815,10 @@ export default function AddSchools() {
                 >
                   ← Back to School Details
                 </button>
-                <div className="flex gap-3 flex-wrap">
+                <div className="flex gap-2 sm:gap-3 flex-wrap w-full sm:w-auto">
                   <button
                     onClick={() => setSelectedTeams([])}
-                    className={`px-5 py-2 text-sm font-bold rounded-lg border active:scale-95 transition-all ${
+                    className={`px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-bold rounded-lg border active:scale-95 transition-all flex-1 sm:flex-none ${
                       darkMode
                         ? "border-gray-600 text-gray-300 hover:bg-gray-700"
                         : "border-gray-300 text-gray-600 hover:bg-gray-100"
@@ -783,7 +828,7 @@ export default function AddSchools() {
                   </button>
                   <button
                     onClick={handleFinalSave}
-                    className="px-6 py-2 text-sm font-bold rounded-lg text-white bg-green-500 hover:bg-green-600 active:scale-95 transition-all"
+                    className="px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-bold rounded-lg text-white bg-green-500 hover:bg-green-600 active:scale-95 transition-all flex-1 sm:flex-none"
                   >
                     ✓ Save All
                   </button>
