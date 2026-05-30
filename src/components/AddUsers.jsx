@@ -102,7 +102,8 @@ export default function AddUsers() {
                         state: {
                             username: username,
                             users: res.data,
-                            school: school
+                            school: school,
+                            darkMode: darkMode
                         }
                     });
                 })
@@ -138,7 +139,8 @@ export default function AddUsers() {
                         state: {
                             username: username,
                             users: res.data,
-                            school: school
+                            school: school,
+                            darkMode: darkMode
                         }
                     });
                 })
@@ -162,7 +164,8 @@ export default function AddUsers() {
                     state: {
                         username: username,
                         users: res.data,
-                        school: school
+                        school: school,
+                        darkMode: darkMode
                     }
                 });
             })
