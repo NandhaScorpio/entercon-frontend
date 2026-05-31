@@ -15,8 +15,9 @@ export default function Login() {
 
   axios.get("https://entercon-backend.onrender.com/")
     .then((d) => {
-      setData(d.data);
-      setUser(d.data.users);
+      setData(d.data[0]);
+      setUser(d.data[0].users);
+      console.log(d.data[0]);
     })
     .catch((e) => console.log(e));
 
