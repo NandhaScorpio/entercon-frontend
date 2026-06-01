@@ -26,7 +26,7 @@ export default function AddUsers() {
     const location = useLocation();
     const username = location.state.username;
     const school = location.state.school;
-    const darkModeStatus = location.state.darkMode || window.localStorage.getItem("darkMode") === "true";
+    const darkModeStatus = location.state.darkMode ?? window.localStorage.getItem("darkMode") === "true";
 
     useEffect(() => {
         setDarkMode(darkModeStatus);

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
-const DAYS = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5"];
 const MODES = ["Mode 1", "Mode 2", "Mode 3"];
 
 const LevelIcon = ({ level }) => {
@@ -32,6 +31,7 @@ export default function ScoreboardMode3() {
   const [currentMode, setCurrentMode] = useState(2);
   const [tableData, setTableData] = useState([]);
   const [activePage, setActivePage] = useState("Search Scoreboard");
+  const [DAYS, setDAYS] = useState([]);
 
   // ── Your original backend state ──
   const navigate = useNavigate();
@@ -65,9 +65,17 @@ export default function ScoreboardMode3() {
     const eventLog = matchingSchool.eventLog || [];
     const teamNames = matchingSchool.teamNames || [];
 
+    // Create days array first
+    const days = [];
+    for (let i = 1; i <= matchingSchool.numberOfDays; i++) {
+      days.push(`Day ${i}`);
+    }
+    setDAYS(days);
+
     // ── Build per-day scores for each team ──
     // dayScores[dayIndex][teamName] = total points earned on that day
-    const dayScores = DAYS.map((_, dayIndex) => {
+    // Use local 'days' variable instead of DAYS state (which updates asynchronously)
+    const dayScores = days.map((_, dayIndex) => {
       const dayLog = eventLog[dayIndex] || [];
       const scoreMap = {};
       teamNames.forEach((t) => {
@@ -86,7 +94,7 @@ export default function ScoreboardMode3() {
 
     // ── Build per-day ranked arrays ──
     // ranksPerDay[dayIndex] = { teamName: rank }
-    const ranksPerDay = DAYS.map((_, dayIndex) => {
+    const ranksPerDay = days.map((_, dayIndex) => {
       const scoreMap = dayScores[dayIndex];
       const teamsWithScore = teamNames.map((t) => ({
         name: t.name,
@@ -106,7 +114,7 @@ export default function ScoreboardMode3() {
 
       // Score per day (that day only)
       const scores = {};
-      DAYS.forEach((_, di) => {
+      days.forEach((_, di) => {
         scores[di + 1] = dayScores[di][teamName] || 0;
       });
 
@@ -239,21 +247,21 @@ export default function ScoreboardMode3() {
               : value}
         </span>
       )}
-        <span className="text-gray-400 text-xs shrink-0"></span>
+      <span className="text-gray-400 text-xs shrink-0"></span>
     </div>
   );
 
   return (
     <div
-      className={`min-h-screen border-2 border-dashed rounded-xl font-mono transition-colors duration-300 ${dm.page}`}
+      className={`min-h-screen w-full overflow-x-hidden border-2 border-dashed rounded-lg font-mono transition-colors duration-300 ${dm.page}`}
     >
       {/* ── Top Bar ── */}
       <div
-        className={`flex items-center justify-between px-3 sm:px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b ${dm.title}`}
+        className={`w-full flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b gap-2 ${darkMode ? "bg-gray-900 border-gray-700 text-white" : "bg-white border-gray-200 text-gray-900"}`}
       >
         <button
           onClick={() => setSidebarOpen(true)}
-          className="md:hidden p-2 rounded-lg text-gray-400 hover:bg-gray-100 transition-colors"
+          className={`md:hidden p-2 rounded-lg transition-colors ${darkMode ? "text-gray-300 hover:bg-gray-800" : "text-gray-600 hover:bg-gray-100"}`}
         >
           <svg
             className="w-5 h-5"
@@ -270,7 +278,7 @@ export default function ScoreboardMode3() {
           </svg>
         </button>
         <h1
-          className={`text-sm sm:text-sm sm:text-base md:text-lg font-bold text-center flex-1 ${dm.title}`}
+          className={`text-sm sm:text-base md:text-lg font-bold text-center flex-1 min-w-0`}
         >
           Welcome to Entercon Score Page!
         </h1>
@@ -341,7 +349,7 @@ export default function ScoreboardMode3() {
 
         {/* ── Main Content ── */}
         <div
-          className={`flex-1 px-3 sm:px-3 sm:px-4 md:px-6 py-3 sm:py-4 md:py-5 flex flex-col gap-3 sm:gap-4 ${dm.mainBg}`}
+          className={`flex-1 min-w-0 px-3 sm:px-3 sm:px-4 md:px-6 py-3 sm:py-4 md:py-5 flex flex-col gap-3 sm:gap-4 ${dm.mainBg}`}
         >
           {/* Header Bar */}
           <div className={`rounded-xl p-3 flex flex-col gap-2 ${dm.headerBar}`}>
@@ -408,10 +416,10 @@ export default function ScoreboardMode3() {
             </div>
           ) : (
             <div
-              className={`flex-1 overflow-x-auto rounded-xl border shadow-sm ${dm.tableWrap}`}
+              className={`flex-1 w-full overflow-x-auto rounded-xl border shadow-sm ${dm.tableWrap}`}
             >
               <table
-                className="border-collapse text-xs"
+                className="w-full border-collapse text-xs"
                 style={{ minWidth: "700px" }}
               >
                 <thead>
@@ -473,7 +481,21 @@ export default function ScoreboardMode3() {
                       </td>
 
                       {/* Logo + Team Name */}
-                      <td className={`border px-2 py-2 cursor-pointer ${dm.tcell}`} onClick={() => navigate("/add-points", {state: { username, users, school: schools, schoolName, programName, darkMode }})}>
+                      <td
+                        className={`border px-2 py-2 cursor-pointer ${dm.tcell}`}
+                        onClick={() =>
+                          navigate("/add-points", {
+                            state: {
+                              username,
+                              users,
+                              school: schools,
+                              schoolName,
+                              programName,
+                              darkMode,
+                            },
+                          })
+                        }
+                      >
                         <div className="flex items-center gap-1.5 md:gap-2">
                           <div
                             className={`w-7 h-7 md:w-8 md:h-8 rounded-full border flex items-center justify-center shrink-0 shadow-sm ${dm.logoCircle}`}
