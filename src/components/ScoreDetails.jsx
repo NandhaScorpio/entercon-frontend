@@ -20,13 +20,7 @@ export default function ScoreDetails() {
   const totalDays = schoolData.numberOfDays;
 
   // ── Your original backend state ──
-  const navItems = [
-    "Dashboard",
-    "Add Schools",
-    "Search Scoreboard",
-    "Add Users",
-  ];
-  const url = ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"];
+
   const navigate = useNavigate();
   const username = location.state?.username;
   const users = location.state?.users;

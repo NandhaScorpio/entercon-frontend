@@ -85,7 +85,6 @@ export default function ScoreboardMode1() {
   const navigate  = useNavigate();
   const navItems  = ["Dashboard", "Add Schools", "Search Scoreboard", "Add Users"];
   const [activePage, setActivePage] = useState("Search Scoreboard");
-  const url       = ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"];
   const location  = useLocation();
   const username  = location.state?.username;
   const users     = location.state?.users;

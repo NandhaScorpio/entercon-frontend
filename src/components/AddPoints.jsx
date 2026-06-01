@@ -65,13 +65,6 @@ export default function AddPoints() {
   var school = useMemo(() => {
     return locationState.school;
   }, [locationState.school]);
-  const navItems = [
-    "Dashboard",
-    "Add Schools",
-    "Search Scoreboard",
-    "Add Users",
-  ];
-  const url = ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"];
   const darkModeStatus = locationState.darkMode;
   const role = locationState?.role || "Admin"; // Default to Admin for backward compatibility
 

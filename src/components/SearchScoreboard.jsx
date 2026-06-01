@@ -19,8 +19,6 @@ export default function SearchScoreboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const date = new Date().toISOString().split("T")[0];
 
-  const navItems = ["Dashboard", "Add Schools", "Search Scoreboard", "Add Users"];
-  const url = ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"]
   const navigate = useNavigate();
   const location = useLocation();
   const username = location.state.username;

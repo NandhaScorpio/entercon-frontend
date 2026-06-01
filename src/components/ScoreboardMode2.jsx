@@ -13,15 +13,8 @@ export default function ScoreboardMode2() {
   const [DAYS, setDAYS] = useState([]);
 
   // ── Your original backend state ──
-  const navItems = [
-    "Dashboard",
-    "Add Schools",
-    "Search Scoreboard",
-    "Add Users",
-  ];
-  const [activePage, setActivePage] = useState("Search Scoreboard");
-  const url = ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"];
-  const navigate = useNavigate();
+
+  const [activePage, setActivePage] = useState("Search Scoreboard");  const navigate = useNavigate();
   const location = useLocation();
   const username = location.state?.username;
   const users = location.state?.users;

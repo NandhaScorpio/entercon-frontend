@@ -35,13 +35,6 @@ export default function ScoreboardMode3() {
 
   // ── Your original backend state ──
   const navigate = useNavigate();
-  const navItems = [
-    "Dashboard",
-    "Add Schools",
-    "Search Scoreboard",
-    "Add Users",
-  ];
-  const url = ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"];
   const location = useLocation();
   const username = location.state?.username;
   const users = location.state?.users;
