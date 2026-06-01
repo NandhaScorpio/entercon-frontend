@@ -27,6 +27,15 @@ export default function SearchScoreboard() {
   const users = location.state.users;
   const school = location.state.school;
   const darkModeStatus = location.state.darkMode;
+  const role = location.state?.role || "Admin"; // Default to Admin for backward compatibility
+  
+  // Conditionally set navItems based on role
+  const filteredNavItems = role === "Admin" 
+    ? ["Dashboard", "Add Schools", "Search Scoreboard", "Add Users"]
+    : ["Dashboard", "Search Scoreboard"];
+  const filteredUrl = role === "Admin"
+    ? ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"]
+    : ["/dashboard", "/search-scoreboard"];
 
   useEffect(() => {
     setDarkMode(darkModeStatus);
@@ -145,13 +154,13 @@ export default function SearchScoreboard() {
               ×
             </button>
           </div>
-          {navItems.map((item, index) => (
+          {filteredNavItems.map((item, index) => (
             <button
               key={item}
               onClick={() => {
                 setActivePage(item);
                 setSidebarOpen(false);
-                navigate(url[index], { state: { username: username, users: users, school: school, schoolName: location.state.schoolName, programName: location.state.programName, darkMode: darkMode } });
+                navigate(filteredUrl[index], { state: { username: username, users: users, school: school, schoolName: location.state.schoolName, programName: location.state.programName, darkMode: darkMode, role: role } });
               }}
               className={`text-left text-sm font-mono transition-all duration-150 hover:text-blue-500 ${activePage === item
                 ? "text-blue-500 font-bold"
@@ -287,17 +296,19 @@ export default function SearchScoreboard() {
                           <td className="px-5 py-3">
                             <div className="flex gap-2 justify-end">
                               <button
-                                onClick={() => navigate("/score-details", { state: { schoolName: row.schoolName, programName: row.programName, username: username, users: users, school: school, darkMode: darkMode } })}
+                                onClick={() => navigate("/score-details", { state: { schoolName: row.schoolName, programName: row.programName, username: username, users: users, school: school, darkMode: darkMode, role: role } })}
                                 className="bg-green-100 hover:bg-green-200 text-green-700 text-xs font-bold px-4 py-1.5 rounded-lg active:scale-95 transition-all"
                               >
                                 See
                               </button>
-                              <button
-                                onClick={() => navigate("/add-school", { state: { username: username, users: users, school: school, schoolName: row.schoolName, programName: row.programName, darkMode: darkMode } })}
-                                className={`bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold px-4 py-1.5 rounded-lg active:scale-95 transition-all ${darkMode ? "dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200" : ""}`}
-                              >
-                                Edit Details
-                              </button>
+                              {role === "Admin" && (
+                                <button
+                                  onClick={() => navigate("/add-school", { state: { username: username, users: users, school: school, schoolName: row.schoolName, programName: row.programName, darkMode: darkMode, role: role } })}
+                                  className={`bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold px-4 py-1.5 rounded-lg active:scale-95 transition-all ${darkMode ? "dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200" : ""}`}
+                                >
+                                  Edit Details
+                                </button>
+                              )}
                             </div>
                           </td>
                         </tr>

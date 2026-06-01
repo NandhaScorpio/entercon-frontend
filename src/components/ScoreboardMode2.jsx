@@ -29,6 +29,15 @@ export default function ScoreboardMode2() {
   const darkModeStatus = location.state?.darkMode || window.localStorage.getItem("darkMode") === "true";
   const schoolName = location.state?.schoolName;
   const programName = location.state?.programName;
+  const role = location.state?.role || "Admin"; // Default to Admin for backward compatibility
+
+  // Conditionally set navItems based on role
+  const filteredNavItems = role === "Admin" 
+    ? ["Dashboard", "Add Schools", "Search Scoreboard", "Add Users"]
+    : ["Dashboard", "Search Scoreboard"];
+  const filteredUrl = role === "Admin"
+    ? ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"]
+    : ["/dashboard", "/search-scoreboard"];
 
   useEffect(() => {
     setCurrentMode(1);
@@ -252,13 +261,13 @@ const grandTotal = () => {
               ✕
             </button>
           </div>
-          {navItems.map((item, index) => (
+          {filteredNavItems.map((item, index) => (
             <button
               key={item}
               onClick={() => {
                 setActivePage(item);
                 setSidebarOpen(false);
-                navigate(url[index], {
+                navigate(filteredUrl[index], {
                   state: {
                     username,
                     users,
@@ -266,6 +275,7 @@ const grandTotal = () => {
                     schoolName,
                     programName,
                     darkMode,
+                    role,
                   },
                 });
               }}
@@ -321,6 +331,7 @@ const grandTotal = () => {
                         schoolName,
                         programName,
                         darkMode,
+                        role,
                       },
                     })
                   }
@@ -340,7 +351,7 @@ const grandTotal = () => {
             <div style={{ minWidth: `${TEAMS.length * 80 + 120}px` }}>
               <table className="w-full border-collapse text-xs">
                 {/* Team Header + Logo */}
-                <thead onClick={() => navigate("/add-points", {state: { username, users, school: schools, schoolName, programName, darkMode }})} className="cursor-pointer">
+                <thead onClick={() => navigate("/add-points", {state: { username, users, school: schools, schoolName, programName, darkMode, role }})} className="cursor-pointer">
                   <tr>
                     {TEAMS.map((team, i) => (
                       <th

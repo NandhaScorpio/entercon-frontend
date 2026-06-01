@@ -27,6 +27,7 @@ export default function AddUsers() {
     const username = location.state.username;
     const school = location.state.school;
     const darkModeStatus = location.state.darkMode ?? window.localStorage.getItem("darkMode") === "true";
+    const role = location.state?.role || "Admin"; // Default to Admin for backward compatibility
 
     useEffect(() => {
         setDarkMode(darkModeStatus);
@@ -102,7 +103,9 @@ export default function AddUsers() {
                         state: {
                             username: username,
                             users: res.data,
-                            school: school
+                            school: school,
+                            darkMode: darkMode,
+                            role: role
                         }
                     });
                 })
@@ -139,7 +142,8 @@ export default function AddUsers() {
                             username: username,
                             users: res.data,
                             school: school,
-                            darkMode: darkMode
+                            darkMode: darkMode,
+                            role: role
                         }
                     });
                     window.localStorage.setItem("darkMode", darkMode);
@@ -164,7 +168,9 @@ export default function AddUsers() {
                     state: {
                         username: username,
                         users: res.data,
-                        school: school
+                        school: school,
+                        darkMode: darkMode,
+                        role: role
                     }
                 });
             })
@@ -266,7 +272,8 @@ export default function AddUsers() {
                                         username: username,
                                         users: users,
                                         school: school,
-                                        darkMode: darkMode
+                                        darkMode: darkMode,
+                                        role: role
                                     }
                                 });
                             }}

@@ -23,7 +23,7 @@ function MemberIcons({ count }) {
 
 function TeamCard({
   team, maxScore, navigate, darkMode,
-  username, users, school, schoolName, programName, index,
+  username, users, school, schoolName, programName, index, role,
 }) {
   const theme    = CARD_THEMES[index % 2 === 0 ? "gold" : "green"];
   const pct      = maxScore > 0 ? Math.round((team.score / maxScore) * 100) : 0;
@@ -32,7 +32,7 @@ function TeamCard({
     <div
       className={`rounded-lg sm:rounded-2xl border-2 p-1.5 sm:p-2 md:p-3 flex flex-col gap-1 sm:gap-1.5 md:gap-2 shadow-md transition-transform hover:scale-105 hover:shadow-xl cursor-pointer touch-highlight ${theme.outer}`}
       onClick={() => navigate("/add-points", {
-        state: { teamName: team.name, username, users, school, schoolName, programName, darkMode },
+        state: { teamName: team.name, username, users, school, schoolName, programName, darkMode, role },
       })}>
 
       {/* Logo + Rank */}
@@ -93,6 +93,15 @@ export default function ScoreboardMode1() {
   const darkModeStatus = location.state.darkMode;
   const schoolName     = location.state.schoolName;
   const programName    = location.state.programName;
+  const role = location.state?.role || "Admin"; // Default to Admin for backward compatibility
+
+  // Conditionally set navItems based on role
+  const filteredNavItems = role === "Admin" 
+    ? ["Dashboard", "Add Schools", "Search Scoreboard", "Add Users"]
+    : ["Dashboard", "Search Scoreboard"];
+  const filteredUrl = role === "Admin"
+    ? ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"]
+    : ["/dashboard", "/search-scoreboard"];
 
   useEffect(() => {
   setDarkMode(darkModeStatus);
@@ -228,13 +237,13 @@ export default function ScoreboardMode1() {
             <button onClick={() => setSidebarOpen(false)}
               className="text-gray-400 hover:text-gray-600 font-bold text-lg touch-highlight">✕</button>
           </div>
-          {navItems.map((item, index) => (
+          {filteredNavItems.map((item, index) => (
             <button key={item}
               onClick={() => {
                 setActivePage(item);
                 setSidebarOpen(false);
-                navigate(url[index], {
-                  state: { username, users, school: schools, schoolName, programName, darkMode },
+                navigate(filteredUrl[index], {
+                  state: { username, users, school: schools, schoolName, programName, darkMode, role },
                 });
               }}
               className={`text-left text-xs sm:text-sm font-mono transition-all duration-150 hover:text-blue-500 py-2 px-2 rounded-lg touch-highlight ${
@@ -266,7 +275,7 @@ export default function ScoreboardMode1() {
                 </div>
                 <button
                   onClick={() => navigate("/scoreboard-mode2", {
-                    state: { username, users, school: schools, schoolName, programName, darkMode: darkModeStatus },
+                    state: { username, users, school: schools, schoolName, programName, darkMode: darkModeStatus, role },
                   })}
                   className="bg-blue-500 hover:bg-blue-600 active:scale-95 text-white text-xs font-bold px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg transition-all whitespace-nowrap touch-highlight">
                   {MODES[currentMode]} ↺
@@ -316,6 +325,7 @@ export default function ScoreboardMode1() {
                   schoolName={schoolName}
                   programName={programName}
                   index={index}
+                  role={role}
                 />
               ))}
             </div>

@@ -38,7 +38,8 @@ export default function Login() {
           users: user,
           data: data,
           school: data.schools,
-          darkMode: darkMode
+          darkMode: darkMode,
+          role: currentUser.role
         }
       });
     } else {

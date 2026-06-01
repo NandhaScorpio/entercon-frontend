@@ -32,6 +32,15 @@ export default function ScoreDetails() {
   const users = location.state?.users;
   var school = location.state?.school;
   const darkModeStatus = location.state.darkMode;
+  const role = location.state?.role || "Admin"; // Default to Admin for backward compatibility
+
+  // Conditionally set navItems based on role
+  const filteredNavItems = role === "Admin" 
+    ? ["Dashboard", "Add Schools", "Search Scoreboard", "Add Users"]
+    : ["Dashboard", "Search Scoreboard"];
+  const filteredUrl = role === "Admin"
+    ? ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"]
+    : ["/dashboard", "/search-scoreboard"];
 
   useEffect(() => {
     school.filter((item) => {
@@ -105,6 +114,7 @@ export default function ScoreDetails() {
             schoolName,
             programName,
             darkMode,
+            role,
           },
         });
         school = res.data;
@@ -192,13 +202,13 @@ export default function ScoreDetails() {
             </button>
           </div>
 
-          {navItems.map((item, index) => (
+          {filteredNavItems.map((item, index) => (
             <button
               key={item}
               onClick={() => {
                 setActivePage(item);
                 setSidebarOpen(false);
-                navigate(url[index], {
+                navigate(filteredUrl[index], {
                   state: {
                     username,
                     users,
@@ -206,6 +216,7 @@ export default function ScoreDetails() {
                     schoolName,
                     programName,
                     darkMode,
+                    role,
                   },
                 });
               }}
@@ -310,6 +321,7 @@ export default function ScoreDetails() {
                     schoolName,
                     programName,
                     darkMode,
+                    role,
                   },
                 })
               }
@@ -361,6 +373,7 @@ export default function ScoreDetails() {
                       schoolName,
                       programName,
                       darkMode,
+                      role,
                     },
                   })
                 }

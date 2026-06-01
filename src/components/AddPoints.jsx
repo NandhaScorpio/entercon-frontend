@@ -73,6 +73,15 @@ export default function AddPoints() {
   ];
   const url = ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"];
   const darkModeStatus = locationState.darkMode;
+  const role = locationState?.role || "Admin"; // Default to Admin for backward compatibility
+
+  // Conditionally set navItems based on role
+  const filteredNavItems = role === "Admin" 
+    ? ["Dashboard", "Add Schools", "Search Scoreboard", "Add Users"]
+    : ["Dashboard", "Search Scoreboard"];
+  const filteredUrl = role === "Admin"
+    ? ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"]
+    : ["/dashboard", "/search-scoreboard"];
 
   useEffect(() => {
     setDarkMode(darkModeStatus);
@@ -174,6 +183,7 @@ export default function AddPoints() {
             darkMode: darkMode,
             schoolName: schoolName,
             programName: programName,
+            role: role,
           },
         });
         school = res.data;
@@ -314,14 +324,14 @@ export default function AddPoints() {
             </button>
           </div>
 
-          {navItems.map((item, index) => (
+          {filteredNavItems.map((item, index) => (
             <button
               key={item}
               onClick={() => {
                 setActivePage(item);
                 setSidebarOpen(false);
-                navigate(url[index], {
-                  state: { username, users, school, darkMode },
+                navigate(filteredUrl[index], {
+                  state: { username, users, school, darkMode, role },
                 });
               }}
               className={`text-left text-xs sm:text-sm font-mono transition-all duration-150 hover:text-blue-500 py-2 px-2 rounded-lg touch-highlight ${

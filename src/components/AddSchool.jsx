@@ -40,6 +40,7 @@ export default function AddSchools() {
   const location = useLocation();
   const username = location.state.username;
   const users = location.state.users;
+  const role = location.state?.role || "Admin"; // Default to Admin for backward compatibility
   const navItems = [
     "Dashboard",
     "Add Schools",
@@ -165,7 +166,7 @@ export default function AddSchools() {
       .get(`https://entercon-backend.onrender.com/delete-school?i=${index}`)
       .then((d) => {
         navigate("/add-school", {
-          state: { username, users, school: d.data, darkMode },
+          state: { username, users, school: d.data, darkMode, role },
         });
         window.location.reload();
       })
@@ -221,7 +222,7 @@ export default function AddSchools() {
         )
         .then((d) => {
           navigate("/add-school", {
-            state: { username, users, school: d.data, darkMode },
+            state: { username, users, school: d.data, darkMode, role },
           });
           window.location.reload();
         })
@@ -234,7 +235,7 @@ export default function AddSchools() {
         )
         .then((d) => {
           navigate("/add-school", {
-            state: { username, users, school: d.data, darkMode },
+            state: { username, users, school: d.data, darkMode, role },
           });
           window.location.reload();
         })
@@ -328,7 +329,7 @@ export default function AddSchools() {
                 setActivePage(item);
                 setSidebarOpen(false);
                 navigate(url[index], {
-                  state: { username, users, school: schools, darkMode },
+                  state: { username, users, school: schools, darkMode, role },
                 });
               }}
               className={`text-left text-sm font-mono transition-all duration-150 hover:text-blue-500 ${

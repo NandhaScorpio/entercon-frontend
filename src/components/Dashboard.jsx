@@ -14,13 +14,15 @@ export default function Dashboard() {
   const users = location.state.users;
   const school = location.state.school;
   const darkModeStatus = location.state.darkMode;
-  const navItems = [
-    "Dashboard",
-    "Add Schools",
-    "Search Scoreboard",
-    "Add Users",
-  ];
-  const url = ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"];
+  const role = location.state?.role || "Admin"; // Default to Admin for backward compatibility
+  
+  // Conditionally set navItems based on role
+  const navItems = role === "Admin" 
+    ? ["Dashboard", "Add Schools", "Search Scoreboard", "Add Users"]
+    : ["Dashboard", "Search Scoreboard"];
+  const url = role === "Admin"
+    ? ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"]
+    : ["/dashboard", "/search-scoreboard"];
 
   const activeEvents = () => {
     return school.filter((row) => {
@@ -77,23 +79,31 @@ export default function Dashboard() {
 
   const recentActivity = school;
 
-  const quickActions = [
-    {
-      label: "Add School",
-      page: "Add Schools",
-      color: "bg-blue-500 hover:bg-blue-600",
-    },
-    {
-      label: "Search Scoreboard",
-      page: "Search Scoreboard",
-      color: "bg-green-500 hover:bg-green-600",
-    },
-    {
-      label: "Add Users",
-      page: "Add Users",
-      color: "bg-purple-500 hover:bg-purple-600",
-    },
-  ];
+  const quickActions = role === "Admin"
+    ? [
+        {
+          label: "Add School",
+          page: "Add Schools",
+          color: "bg-blue-500 hover:bg-blue-600",
+        },
+        {
+          label: "Search Scoreboard",
+          page: "Search Scoreboard",
+          color: "bg-green-500 hover:bg-green-600",
+        },
+        {
+          label: "Add Users",
+          page: "Add Users",
+          color: "bg-purple-500 hover:bg-purple-600",
+        },
+      ]
+    : [
+        {
+          label: "Search Scoreboard",
+          page: "Search Scoreboard",
+          color: "bg-green-500 hover:bg-green-600",
+        },
+      ];
 
   const dm = {
     page: darkMode
@@ -201,7 +211,7 @@ export default function Dashboard() {
                 setActivePage(item);
                 setSidebarOpen(false);
                 navigate(url[index], {
-                  state: { username, users, school, darkMode },
+                  state: { username, users, school, darkMode, role },
                 });
               }}
               className={`text-left text-xs sm:text-sm font-mono transition-all duration-150 hover:text-blue-500 py-2 px-2 rounded-lg touch-highlight ${
@@ -340,20 +350,24 @@ export default function Dashboard() {
               >
                 Quick Actions
               </h3>
-              {quickActions.map((action, index) => (
-                <button
-                  key={action.label}
-                  onClick={() => {
-                    setActivePage(action.page);
-                    navigate(url[index + 1], {
-                      state: { username, users, school, darkMode },
-                    });
-                  }}
-                  className={`w-full text-white text-xs sm:text-sm font-bold py-2 sm:py-2.5 md:py-3 rounded-lg transition-all duration-150 active:scale-95 touch-highlight ${action.color}`}
-                >
-                  {action.label}
-                </button>
-              ))}
+              {quickActions.map((action, index) => {
+                // Find the correct URL based on action.page
+                const actionUrl = url[navItems.indexOf(action.page)];
+                return (
+                  <button
+                    key={action.label}
+                    onClick={() => {
+                      setActivePage(action.page);
+                      navigate(actionUrl, {
+                        state: { username, users, school, darkMode, role },
+                      });
+                    }}
+                    className={`w-full text-white text-xs sm:text-sm font-bold py-2 sm:py-2.5 md:py-3 rounded-lg transition-all duration-150 active:scale-95 touch-highlight ${action.color}`}
+                  >
+                    {action.label}
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
