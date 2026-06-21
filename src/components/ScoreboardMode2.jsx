@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import BackButton from "./BackButton";
 
 const MODES = ["Mode 1", "Mode 2", "Mode 3"];
 
@@ -198,6 +199,7 @@ const grandTotal = () => {
       <div
         className={`flex items-center justify-between px-3 sm:px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b ${dm.title}`}
       >
+        <BackButton />
         <button
           onClick={() => setSidebarOpen(true)}
           className="md:hidden p-2 rounded-lg text-gray-400 hover:bg-gray-100 transition-colors"

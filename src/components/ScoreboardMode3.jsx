@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import BackButton from "./BackButton";
 
 const MODES = ["Mode 1", "Mode 2", "Mode 3"];
 
@@ -266,6 +267,7 @@ export default function ScoreboardMode3() {
       <div
         className={`w-full flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b gap-2 ${darkMode ? "bg-gray-900 border-gray-700 text-white" : "bg-white border-gray-200 text-gray-900"}`}
       >
+        <BackButton />
         <button
           onClick={() => setSidebarOpen(true)}
           className={`md:hidden p-2 rounded-lg transition-colors ${darkMode ? "text-gray-300 hover:bg-gray-800" : "text-gray-600 hover:bg-gray-100"}`}

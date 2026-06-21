@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import BackButton from "./BackButton";
 
 const STATUS_STYLES = {
   completed: "bg-green-100 text-green-700",
@@ -90,6 +91,7 @@ export default function SearchScoreboard() {
 
       {/* Top Bar - EXACT COPY from AddUsers */}
       <div className={`flex items-center justify-between px-3 sm:px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b ${dm.title}`}>
+        <BackButton />
         <button
           onClick={() => setSidebarOpen(true)}
           className="md:hidden p-2 rounded-lg text-gray-400 hover:bg-gray-100 transition-colors"

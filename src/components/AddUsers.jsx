@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import BackButton from "./BackButton";
 
 const CATEGORIES = ["Admin", "Trainer"];
 
@@ -186,6 +187,8 @@ export default function AddUsers() {
             {/* ── Top Bar ── */}
 
             <div className={`flex items-center justify-between px-3 sm:px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b ${dm.title}`}>
+
+                <BackButton />
 
                 {/* Hamburger */}
 
