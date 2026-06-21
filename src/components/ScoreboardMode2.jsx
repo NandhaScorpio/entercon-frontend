@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 
 const MODES = ["Mode 1", "Mode 2", "Mode 3"];
 
@@ -18,11 +19,16 @@ export default function ScoreboardMode2() {
   const location = useLocation();
   const username = location.state?.username;
   const users = location.state?.users;
-  const schools = location.state?.school;
+  const [schools, setSchools] = useState(location.state?.school);
   const darkModeStatus = location.state?.darkMode || window.localStorage.getItem("darkMode") === "true";
   const schoolName = location.state?.schoolName;
   const programName = location.state?.programName;
   const role = location.state?.role || "Admin"; // Default to Admin for backward compatibility
+
+  axios
+    .get("https://entercon-backend.onrender.com/get-data")
+    .then((response) => setSchools(response.data))
+    .catch((e) => console.log(e));
 
   // Conditionally set navItems based on role
   const filteredNavItems = role === "Admin" 

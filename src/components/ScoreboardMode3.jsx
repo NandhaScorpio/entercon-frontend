@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 
 const MODES = ["Mode 1", "Mode 2", "Mode 3"];
 
@@ -38,7 +39,7 @@ export default function ScoreboardMode3() {
   const location = useLocation();
   const username = location.state?.username;
   const users = location.state?.users;
-  const schools = location.state?.school;
+  const [schools, setSchools] = useState(location.state?.school);
   const darkModeStatus = location.state?.darkMode;
   const schoolName = location.state?.schoolName;
   const programName = location.state?.programName;
@@ -51,8 +52,12 @@ export default function ScoreboardMode3() {
   const filteredUrl = role === "Admin"
     ? ["/dashboard", "/add-school", "/search-scoreboard", "/add-users"]
     : ["/dashboard", "/search-scoreboard"];
-  console.log(schools);
   // ─────────────────────────────────
+
+  axios
+    .get("https://entercon-backend.onrender.com/get-data")
+    .then((response) => setSchools(response.data))
+    .catch((e) => console.log(e));
 
   useEffect(() => {
     setDarkMode(darkModeStatus);
